@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+<div class="app-wrapper">
+
+    <header class="top-bar">
+        <a href="/index.html" class="top-bar-logo">
+            <img src="/assets/logo.png" alt="NexVentory Logo">
+            <span>NexVentory</span>
+        </a>
+        <nav class="top-nav" id="top-nav-links"></nav>
+        <div class="top-bar-user" id="top-bar-user-container"></div>
+    </header>
+
+    <div class="app-container">
+        <nav class="sidebar" id="app-sidebar">
+            <div class="sidebar-content" id="sidebar-content"></div>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                    <span class="link-text">Collapse</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content" id="main-content">
+           
+            <header class="page-header">
+                <h1>Privacy Policy</h1>
+                <p>Last updated: August 13, 2025</p>
+            </header>
+
+            <div class="content-block">
+                <p>Your privacy is important to us. It is NexVentory's policy to respect your privacy regarding any information we may collect from you across our website.</p>
+                
+                <h2>1. Information We Collect</h2>
+                <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. The personal information we collect is limited to your name and email address, which are provided through Google Sign-In for authentication purposes.</p>
+
+                <h2>2. How We Use Your Information</h2>
+                <p>We use the information we collect to:</p>
+                <ul>
+                    <li>Create and manage your user account.</li>
+                    <li>Identify you in transaction logs (e.g., "John Doe checked out an item").</li>
+                    <li>Provide you with a personalized experience.</li>
+                </ul>
+
+                <h2>3. Security</h2>
+                <p>We are committed to protecting your information. Your user data is stored securely within our Firestore database, protected by Firebase's robust security infrastructure and our own strict security rules.</p>
+
+                <h2>4. Data Retention</h2>
+                <p>We retain your personal information only for as long as necessary to provide you with your account and the services you have requested.</p>
+
+                <h2>5. Your Rights</h2>
+                <p>You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services. You can request the deletion of your account and associated data by contacting the system administrator.</p>
+            </div>
+            </main>
+    </div>
+
+    <footer id="app-footer"></footer>
+
+</div>
+
+    <div id="chatbot-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+
+  <!-- nav.html (Corrected) -->
+<header class="topnav" id="myTopnav">
+  <a href="<?!= data.scriptUrl ?>" class="topnav-brand">
+    <img id="topnavLogoImage" 
+         src="<?!= data.logoDataUri || 'https://placehold.co/120x40/003d6b/ffffff?text=NexVentory' ?>" 
+         alt="Logo Icon" 
+         class="topnav-logo-icon">
+    <span><?= data.appName ?></span>
+  </a>
+  <div id="topnavLinksContainer" class="topnav-links-container">
+    <a href="<?!= data.scriptUrl ?>?page=index" class="nav-link <?= data.currentPage == 'index' ? 'active' : '' ?>"><i class="fas fa-home"></i> Home</a>
+    <a href="<?!= data.scriptUrl ?>?page=operations" class="nav-link <?= data.currentPage == 'operations' ? 'active' : '' ?>"><i class="fas fa-exchange-alt"></i> Check In/Out</a>
+    <a href="<?!= data.scriptUrl ?>?page=search" class="nav-link <?= data.currentPage == 'search' ? 'active' : '' ?>"><i class="fas fa-search"></i> Search</a>
+    <? if (data.userRole == 'Master Admin' || data.userRole == 'Admin') { ?>
+      <a href="<?!= data.scriptUrl ?>?page=admin" class="nav-link <?= data.currentPage == 'admin' ? 'active' : '' ?>"><i class="fas fa-user-shield"></i> Admin Panel</a>
+    <? } ?>
+ </div>
+  <!-- This is the new hamburger menu icon for mobile -->
+  <a href="javascript:void(0);" class="topnav-icon" id="navToggleIcon"> <i class="fas fa-bars"></i>
+  </a>
+</header>
+  <!-- preloader.html (Corrected) -->
+<div id="preloader" class="preloader">
+    <div class="preloader-content">
+        <img src="<?!= data.logoDataUri || 'https://i.imgur.com/S8Wp3B4.png' ?>" alt="Logo" class="preloader-logo">
+        <div class="preloader-spinner"></div>
+    </div>
+</div>
+  <main class="container">
+    <div class="content-block" style="text-align: center;">
+      <h1><i class="fas fa-lock" style="color: var(--error-color);"></i> Access Denied</h1>
+      <p style="font-size: 1.2rem;">You do not have the required permissions to view this page.</p>
+      <p>Please contact an administrator if you believe this is an error.</p>
+      <a href="/" class="btn" style="margin-top: 20px;">Return to Homepage</a>
+    </div>
+  </main>
+  <footer style="
+  background-color: #1e1e1e;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-top: 2rem;
+  border-top: 1px solid #333;
+">
+  <div>
+    &copy; <span id="footerYear"></span> <?= data.appName ?>
+  </div>
+  <div style="margin-top: 0.3rem;">
+    <a id="aboutLink" href="#" style="color: #4dabf7; text-decoration: none;">
+      About This App
+    </a>
+  </div>
+</footer>
+
+<script>
+  // This script is now ES5-compatible
+  document.addEventListener("DOMContentLoaded", function () {
+    // Set the current year in the footer
+    document.getElementById("footerYear").textContent = new Date().getFullYear();
+    
+    // THE FIX: Changed 'const' to 'var' for compatibility
+    var aboutLink = document.getElementById("aboutLink");
+    
+    // This part is correct and will work with the global script file
+    if (aboutLink && typeof INITIAL_SCRIPT_URL !== 'undefined') {
+      aboutLink.href = INITIAL_SCRIPT_URL + "?page=about";
+    }
+  });
+</script>
+
+  <button id="quickNavFab" class="quick-nav-fab" title="Quick Actions"><i class="fas fa-bolt"></i></button>
+<ul id="quickNavMenu" class="quick-nav-menu">
+    <!-- This file is now empty. The menu is built dynamically in script.html -->
+    <!-- The script in script.html will use the global INITIAL_DATA object -->
+</ul>
+  <div id="scanModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h3>Scan Item Barcode</h3>
+    <div id="qr-reader"></div>
+  </div>
+</div>
+
+<div id="listAllModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h3>All Inventory Items</h3>
+    <input type="text" id="listAllFilterInput" class="form-control" placeholder="Filter items..." style="margin-bottom: 15px;">
+    <div id="listAllContainer" style="max-height: 400px; overflow-y: auto; text-align: left;">
+      </div>
+  </div>
+</div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content" style="max-width: 500px;">
+    <span class="modal-close">&times;</span>
+    <h3 id="confirmationTitle">Confirm Action</h3>
+    <p id="confirmationMessage" style="margin: 20px 0; font-size: 1.1rem;"></p>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" id="cancelConfirmBtn">Cancel</button>
+      <button type="button" class="btn btn-success" id="proceedConfirmBtn">Proceed</button>
+    </div>
+  </div>
+</div>
+
+<div id="relatedItemsModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h3>Add Related Items</h3>
+    <p>Select additional items to add to the current checkout.</p>
+    <input type="text" id="relatedItemsFilterInput" class="form-control" placeholder="Filter items..." style="margin-bottom: 15px;">
+    <ul id="relatedItemsChecklist" class="checkoff-list" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px;">
+      </ul>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" id="cancelRelatedBtn">Cancel</button>
+      <button type="button" class="btn btn-success" id="addSelectedRelatedBtn">Add Selected</button>
+    </div>
+  </div>
+</div>
+
+<div id="progressModal" class="modal">
+  <div class="modal-content" style="max-width: 500px; text-align: center;">
+    <h3 id="progressTitle">Processing...</h3>
+    <p id="progressMessage">Please wait while the operation completes. This may take a few minutes for large datasets.</p>
+    <div class="loading-placeholder" style="margin-top: 20px;">
+        <span class="spinner"></span>
+    </div>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+  </body>
+</html>

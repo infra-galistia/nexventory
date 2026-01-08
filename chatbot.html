@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Chatbot Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Chatbot Container */
+        #chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Chat Toggle Button */
+        #chat-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        #chat-toggle svg {
+            fill: white;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Chat Window */
+        #chat-window {
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            overflow: hidden;
+        }
+
+        #chat-window.show {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chat Header */
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bot-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bot-avatar {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bot-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .bot-status {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: #28a745;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 10px 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .quick-actions-title {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Chat Input */
+        .chat-input {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            padding: 10px 15px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: #667eea;
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .send-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: none;
+            padding: 10px 15px;
+            color: #6c757d;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        /* Lead Form */
+        .lead-form {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .lead-form h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #495057;
+        }
+
+        .submit-lead-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .submit-lead-btn:hover {
+            background: #218838;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #chat-window {
+                width: 100vw;
+                height: 100vh;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+                position: fixed;
+            }
+            
+            #chatbot-widget {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Chatbot Widget -->
+    <div id="chatbot-widget">
+        <button id="chat-toggle">
+            <svg viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,6A2,2 0 0,1 14,8A2,2 0 0,1 12,10A2,2 0 0,1 10,8A2,2 0 0,1 12,6M12,20C10.5,20 9.13,19.5 8,18.7C8.16,17.9 10.33,17.1 12,17.1C13.67,17.1 15.84,17.9 16,18.7C14.87,19.5 13.5,20 12,20Z"/>
+            </svg>
+            <div class="notification-badge">1</div>
+        </button>
+
+        <div id="chat-window">
+            <div class="chat-header">
+                <div class="bot-info">
+                    <div class="bot-avatar">🤖</div>
+                    <div class="bot-details">
+                        <h3>AI Assistant</h3>
+                        <div class="bot-status">Online • Ready to help</div>
+                    </div>
+                </div>
+                <button class="close-btn">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        👋 Hi! I'm your AI assistant. I can help you with questions about this website, our products, services, and even help you find exactly what you're looking for. What can I help you with today?
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <div class="quick-actions-title">Quick Actions:</div>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="sendQuickMessage('Tell me about your products')">Our Products</button>
+                    <button class="action-btn" onclick="sendQuickMessage('What are your prices?')">Pricing</button>
+                    <button class="action-btn" onclick="sendQuickMessage('I want to contact sales')">Contact Sales</button>
+                    <button class="action-btn" onclick="sendQuickMessage('How can I get started?')">Get Started</button>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typing-indicator">
+                AI is typing...
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type your message..." maxlength="500">
+                <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class UniversalChatbot {
+            constructor() {
+                this.isOpen = false;
+                this.websiteData = {};
+                this.conversationHistory = [];
+                this.leadCaptured = false;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.analyzeWebsite();
+                this.setupKeyboardShortcuts();
+            }
+
+            setupEventListeners() {
+                const toggle = document.getElementById('chat-toggle');
+                const closeBtn = document.querySelector('.close-btn');
+                const messageInput = document.getElementById('message-input');
+
+                toggle.addEventListener('click', () => this.toggleChat());
+                closeBtn.addEventListener('click', () => this.closeChat());
+                
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.sendMessage();
+                    }
+                });
+
+                // Auto-resize for mobile
+                window.addEventListener('resize', () => this.handleResize());
+            }
+
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'm') {
+                        e.preventDefault();
+                        this.toggleChat();
+                    }
+                });
+            }
+
+            analyzeWebsite() {
+                // Extract website information
+                this.websiteData = {
+                    title: document.title,
+                    description: this.getMetaDescription(),
+                    headings: this.extractHeadings(),
+                    links: this.extractLinks(),
+                    images: this.extractImages(),
+                    forms: this.extractForms(),
+                    products: this.extractProducts(),
+                    contact: this.extractContactInfo(),
+                    keywords: this.extractKeywords()
+                };
+
+                console.log('Website Analysis:', this.websiteData);
+            }
+
+            getMetaDescription() {
+                const meta = document.querySelector('meta[name="description"]');
+                return meta ? meta.content : '';
+            }
+
+            extractHeadings() {
+                const headings = [];
+                document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
+                    headings.push({
+                        tag: h.tagName,
+                        text: h.textContent.trim(),
+                        level: parseInt(h.tagName[1])
+                    });
+                });
+                return headings.slice(0, 20); // Limit to first 20
+            }
+
+            extractLinks() {
+                const links = [];
+                document.querySelectorAll('a[href]').forEach(link => {
+                    if (link.textContent.trim()) {
+                        links.push({
+                            text: link.textContent.trim(),
+                            url: link.href,
+                            internal: link.hostname === window.location.hostname
+                        });
+                    }
+                });
+                return links.slice(0, 30);
+            }
+
+            extractImages() {
+                const images = [];
+                document.querySelectorAll('img[src]').forEach(img => {
+                    images.push({
+                        src: img.src,
+                        alt: img.alt,
+                        title: img.title
+                    });
+                });
+                return images.slice(0, 10);
+            }
+
+            extractForms() {
+                const forms = [];
+                document.querySelectorAll('form').forEach(form => {
+                    const inputs = Array.from(form.querySelectorAll('input, select, textarea')).map(input => ({
+                        type: input.type || input.tagName.toLowerCase(),
+                        name: input.name,
+                        placeholder: input.placeholder
+                    }));
+                    forms.push({
+                        action: form.action,
+                        method: form.method,
+                        inputs: inputs
+                    });
+                });
+                return forms;
+            }
+
+            extractProducts() {
+                const products = [];
+                // Look for common product patterns
+                const productSelectors = [
+                    '.product', '.item', '.card',
+                    '[data-product]', '.product-card',
+                    '.listing-item', '.shop-item'
+                ];
+
+                productSelectors.forEach(selector => {
+                    document.querySelectorAll(selector).forEach(element => {
+                        const title = element.querySelector('h1, h2, h3, h4, .title, .name')?.textContent?.trim();
+                        const price = element.querySelector('.price, .cost, .amount')?.textContent?.trim();
+                        if (title) {
+                            products.push({ title, price, element: element.outerHTML.substring(0, 200) });
+                        }
+                    });
+                });
+
+                return products.slice(0, 15);
+            }
+
+            extractContactInfo() {
+                const contact = {};
+                const text = document.body.textContent;
+                
+                // Extract email
+                const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+                if (emailMatch) contact.email = emailMatch[0];
+
+                // Extract phone
+                const phoneMatch = text.match(/(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}/);
+                if (phoneMatch) contact.phone = phoneMatch[0];
+
+                // Extract address
+                const addressElement = document.querySelector('[class*="address"], [class*="location"]');
+                if (addressElement) contact.address = addressElement.textContent.trim();
+
+                return contact;
+            }
+
+            extractKeywords() {
+                const text = document.body.textContent.toLowerCase();
+                const words = text.match(/\b\w{4,}\b/g) || [];
+                const frequency = {};
+                
+                words.forEach(word => {
+                    if (!this.isStopWord(word)) {
+                        frequency[word] = (frequency[word] || 0) + 1;
+                    }
+                });
+
+                return Object.entries(frequency)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 20)
+                    .map(([word]) => word);
+            }
+
+            isStopWord(word) {
+                const stopWords = ['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'had', 'but', 'with', 'have', 'this', 'that', 'from', 'they', 'she', 'been', 'said', 'each', 'which', 'their', 'time', 'will'];
+                return stopWords.includes(word) || word.length < 4;
+            }
+
+            toggleChat() {
+                const chatWindow = document.getElementById('chat-window');
+                const badge = document.querySelector('.notification-badge');
+                
+                if (this.isOpen) {
+                    this.closeChat();
+                } else {
+                    chatWindow.classList.add('show');
+                    this.isOpen = true;
+                    badge.style.display = 'none';
+                    document.getElementById('message-input').focus();
+                }
+            }
+
+            closeChat() {
+                const chatWindow = document.getElementById('chat-window');
+                chatWindow.classList.remove('show');
+                this.isOpen = false;
+            }
+
+            sendMessage(message = null) {
+                const input = document.getElementById('message-input');
+                const messageText = message || input.value.trim();
+                
+                if (!messageText) return;
+
+                this.addMessage(messageText, 'user');
+                input.value = '';
+                
+                this.showTypingIndicator();
+                
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    this.processMessage(messageText);
+                }, 1000 + Math.random() * 2000);
+            }
+
+            addMessage(text, sender = 'bot', isHTML = false) {
+                const messagesContainer = document.getElementById('chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = sender === 'user' ? '👤' : '🤖';
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${avatar}</div>
+                    <div class="message-content">${isHTML ? text : this.escapeHtml(text)}</div>
+                `;
+                
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                this.conversationHistory.push({ sender, text, timestamp: Date.now() });
+            }
+
+            processMessage(message) {
+                const response = this.generateResponse(message.toLowerCase());
+                this.addMessage(response.text, 'bot', response.isHTML);
+                
+                // Handle special actions
+                if (response.action === 'show_lead_form') {
+                    this.showLeadForm();
+                } else if (response.action === 'show_products') {
+                    this.showProducts();
+                } else if (response.action === 'show_contact') {
+                    this.showContactInfo();
+                }
+            }
+
+            generateResponse(message) {
+                // Intent detection
+                if (this.containsWords(message, ['price', 'cost', 'pricing', 'how much', 'expensive'])) {
+                    return this.handlePricingQuery(message);
+                }
+                
+                if (this.containsWords(message, ['product', 'service', 'what do you', 'what are you', 'offer'])) {
+                    return this.handleProductQuery();
+                }
+                
+                if (this.containsWords(message, ['contact', 'phone', 'email', 'address', 'reach', 'call'])) {
+                    return { text: this.getContactResponse(), action: 'show_contact' };
+                }
+                
+                if (this.containsWords(message, ['buy', 'purchase', 'order', 'get started', 'sign up', 'interested'])) {
+                    return this.handlePurchaseIntent();
+                }
+                
+                if (this.containsWords(message, ['help', 'support', 'problem', 'issue', 'question'])) {
+                    return { text: this.getHelpResponse() };
+                }
+
+                if (this.containsWords(message, ['hello', 'hi', 'hey', 'good morning', 'good afternoon'])) {
+                    return { text: this.getGreetingResponse() };
+                }
+
+                // Default response with website analysis
+                return { text: this.getContextualResponse(message) };
+            }
+
+            containsWords(text, words) {
+                return words.some(word => text.includes(word));
+            }
+
+            handlePricingQuery(message) {
+                const products = this.websiteData.products;
+                let response = "Here's what I found about our pricing:\n\n";
+                
+                if (products.length > 0) {
+                    const productsWithPrices = products.filter(p => p.price);
+                    if (productsWithPrices.length > 0) {
+                        productsWithPrices.slice(0, 3).forEach(product => {
+                            response += `• ${product.title}: ${product.price}\n`;
+                        });
+                        response += "\nWould you like me to connect you with our sales team for detailed pricing information?";
+                        return { text: response, action: 'show_lead_form' };
+                    }
+                }
+                
+                response += "I'd be happy to get you detailed pricing information! Let me connect you with our sales team who can provide you with a personalized quote.";
+                return { text: response, action: 'show_lead_form' };
+            }
+
+            handleProductQuery() {
+                let response = `Based on what I can see on ${this.websiteData.title}, here's what we offer:\n\n`;
+                
+                if (this.websiteData.headings.length > 0) {
+                    const relevantHeadings = this.websiteData.headings
+                        .filter(h => h.level <= 3)
+                        .slice(0, 4);
+                    
+                    relevantHeadings.forEach(heading => {
+                        response += `• ${heading.text}\n`;
+                    });
+                }
+                
+                if (this.websiteData.products.length > 0) {
+                    response += "\nFeatured products:\n";
+                    this.websiteData.products.slice(0, 3).forEach(product => {
+                        response += `• ${product.title}${product.price ? ' - ' + product.price : ''}\n`;
+                    });
+                }
+                
+                response += "\nWould you like to learn more about any specific product or service?";
+                return { text: response, action: 'show_products' };
+            }
+
+            handlePurchaseIntent() {
+                if (!this.leadCaptured) {
+                    return {
+                        text: "Great! I'd love to help you get started. Let me gather some quick information so our team can provide you with the best assistance.",
+                        action: 'show_lead_form'
+                    };
+                }
+                
+                return {
+                    text: "Perfect! Our team will be in touch with you shortly to help you get started. Is there anything specific you'd like to know in the meantime?",
+                };
+            }
+
+            getContactResponse() {
+                let response = "Here's how you can reach us:\n\n";
+                
+                if (this.websiteData.contact.email) {
+                    response += `📧 Email: ${this.websiteData.contact.email}\n`;
+                }
+                
+                if (this.websiteData.contact.phone) {
+                    response += `📞 Phone: ${this.websiteData.contact.phone}\n`;
+                }
+                
+                if (this.websiteData.contact.address) {
+                    response += `📍 Address: ${this.websiteData.contact.address}\n`;
+                }
+                
+                if (!this.websiteData.contact.email && !this.websiteData.contact.phone) {
+                    response += "Let me help you get in touch with our team right away!";
+                    return { text: response, action: 'show_lead_form' };
+                }
+                
+                response += "\nFeel free to reach out through any of these channels, or I can connect you with our team right now!";
+                return { text: response };
+            }
+
+            getHelpResponse() {
+                return `I'm here to help! I can assist you with:
+
+• Information about our products and services
+• Pricing and package details  
+• Contact information
+• Getting you connected with our sales team
+• Answering questions about ${this.websiteData.title}
+
+What specific question do you have?`;
+            }
+
+            getGreetingResponse() {
+                const greetings = [
+                    `Hello! Welcome to ${this.websiteData.title}! 👋`,
+                    `Hi there! Great to see you on our website! 😊`,
+                    `Hey! Thanks for visiting us today! 🌟`
+                ];
+                
+                const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+                return `${greeting}\n\nI'm here to help you find exactly what you're looking for. What can I assist you with today?`;
+            }
+
+            getContextualResponse(message) {
+                // Try to find relevant content based on keywords
+                const keywords = this.websiteData.keywords;
+                const messageWords = message.split(' ').filter(word => word.length > 3);
+                
+                const relevantKeywords = keywords.filter(keyword => 
+                    messageWords.some(word => word.includes(keyword) || keyword.includes(word))
+                );
+                
+                if (relevantKeywords.length > 0) {
+                    return `I found some relevant information about ${relevantKeywords.slice(0, 2).join(' and ')} on our website. Let me help you find exactly what you're looking for!\n\nCould you tell me more specifically what you need help with?`;
+                }
+                
+                return `That's a great question! I have access to all the information on ${this.websiteData.title} and I'm here to help.\n\nCould you provide a bit more detail about what you're looking for? I can help you with our products, services, pricing, or connect you with our team.`;
+            }
+
+            showLeadForm() {
+                const leadFormHTML = `
+                    <div class="lead-form">
+                        <h4>🚀 Get Personalized Assistance</h4>
+                        <form id="lead-capture-form">
+                            <div class="form-group">
+                                <label>Name *</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label>I'm interested in:</label>
+                                <select name="interest">
+                                    <option value="">Select an option</option>
+                                    <option value="pricing">Pricing Information</option>
+                                    <option value="demo">Product Demo</option>
+                                    <option value="consultation">Free Consultation</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="submit-lead-btn">Submit</button>
+                        </form>
+                    </div>
+                `;
+                
+                this.addMessage(leadFormHTML, 'bot', true);
+                
+                // Add form submission handler
+                setTimeout(() => {
+                    const form = document.getElementById('lead-capture-form');
+                    if (form) {
+                        form.addEventListener('submit', (e) => this.handleLeadSubmission(e));
+                    }
+                }, 100);
+            }
+
+            handleLeadSubmission(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const leadData = Object.fromEntries(formData);
+                
+                // Here you would typically send to your backend
+                console.log('Lead captured:', leadData);

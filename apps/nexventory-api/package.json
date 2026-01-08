@@ -1,0 +1,23 @@
+{
+  "name": "nexventory-api",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "@nexventory/config": "*",
+    "@nexventory/core": "*",
+    "@nexventory/db": "*",
+    "@nexventory/identity": "*",
+    "@nexventory/policy": "*",
+    "fastify": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "eslint": "latest"
+  }
+}

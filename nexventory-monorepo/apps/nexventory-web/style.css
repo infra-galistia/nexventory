@@ -1,0 +1,2697 @@
+/* ==========================================================================
+   NexVentory Firebase Project - Main Stylesheet
+   ========================================================================== */
+
+/* --- STYLESHEET INDEX (9 Sections Total) ---
+
+    1. Global Styles & Variables
+    2. Layout (Sticky Footer, Container)
+    3. General Components (Forms, Buttons, Modals, etc.)
+    4. Navigation Bar Styles
+    5. Quick Navigation FAB (Floating Action Button)
+    6. Page-Specific Component Styles
+    7. Preloader Styles
+    8. Responsive Styles (Mobile-First)
+    9. FINAL: Global Mobile Responsiveness Rules
+*/
+
+/* ================================================================== */
+/* --- 1. Global Styles & Variables --- */
+/* ================================================================== */
+:root {
+  --primary-color: #005A9E;
+  --primary-dark: #003D6B;
+  --accent-color: #F57C00;
+  --success-color: #2E7D32;
+  --error-color: #C62828;
+  --warning-color: #FFA000;
+  --light-bg: #F4F6F8;
+  --text-color: #333;
+  --border-color: #DDE2E6;
+  --white: #FFFFFF;
+  --header-height: 60px;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* ================================================================== */
+/* --- 2. Layout (Sticky Footer, Container) --- */
+/* ================================================================== */
+body {
+  margin: 0;
+  padding: 0; /* The wrapper will handle layout */
+  background-color: var(--light-bg);
+  color: var(--text-color);
+}
+
+main.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add this to your style.css */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-container {
+  flex-grow: 1; /* This is the key change */
+}
+
+footer {
+  flex-shrink: 0; /* Prevents the footer from shrinking */
+  background-color: #343a40;
+  color: #ccc;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+footer a {
+    color: #4dabf7;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+#admin-container,
+#search-page-content,
+#operations-container,
+#dashboard-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ================================================================== */
+/* --- 3. General Components --- */
+/* ================================================================== */
+.content-block {
+  background-color: var(--white);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 30px;
+}
+
+.hidden { display: none !important; }
+
+h1, h2, h3, h4 {
+  color: var(--primary-dark);
+  margin: 0 0 0.75em 0;
+}
+
+h1 { font-size: 2rem; text-align: center; }
+h2 { font-size: 1.6rem; padding-bottom: 0.5em; border-bottom: 3px solid var(--border-color); }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.form-group { margin-bottom: 1.2rem; }
+label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+select, input[type="text"], input[type="number"], input[type="url"], textarea, input[type="file"], input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+select:focus, input:focus, textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 90, 158, 0.2);
+}
+textarea { min-height: 90px; resize: vertical; }
+
+.btn {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: var(--primary-color); /* This is the PRIMARY BLUE */
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s, transform 0.1s;
+  text-decoration: none;
+}
+.btn:hover { background-color: var(--primary-dark); transform: translateY(-1px); }
+.btn:disabled { background-color: #B0BEC5; cursor: not-allowed; transform: none; }
+.btn .spinner { border-top-color: var(--white); }
+.btn-secondary { background-color: var(--primary-color); }
+.btn-secondary:hover { background-color: var(--primary-dark); }
+.btn-danger { background-color: var(--error-color); }
+.btn-danger:hover { background-color: #a71d1d; }
+.btn-success {background-color: var(--success-color); /* This is the GREEN */}
+.btn-success:hover { background-color: #1a5e20; }
+.btn-accent {
+    background-color: var(--accent-color); /* This is the ACCENT ORANGE */
+}
+.btn-accent:hover {
+    background-color: #E65100; /* A slightly darker orange */
+}
+
+.message-box { padding: 15px; margin-top: 15px; border-radius: 6px; font-size: 1rem; display: none; border: 1px solid transparent; }
+.message-box.success { background-color: #E8F5E9; color: var(--success-color); border-color: #A5D6A7; }
+.message-box.error { background-color: #FFEBEE; color: var(--error-color); border-color: #EF9A9A; }
+.message-box.info { background-color: #E3F2FD; color: var(--primary-dark); border-color: #90CAF9; }
+.spinner { display: inline-block; width: 1em; height: 1em; border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: var(--primary-color); animation: spin 1s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-placeholder { padding: 40px; text-align: center; color: #777; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+.item-selector-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.item-selector-group .form-group { flex-grow: 1; min-width: 300px; position: relative; margin-bottom: 0; }
+.autocomplete-list { position: absolute; background: var(--white); border: 1px solid var(--border-color); border-top: none; z-index: 100; width: 100%; max-height: 250px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.autocomplete-list div { padding: 12px; cursor: pointer; border-bottom: 1px solid #f0f0f0;}
+.autocomplete-list div:hover { background-color: #eef1f5; }
+
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+.modal.active { display: flex; }
+
+.modal-content {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    position: relative; /* This line is crucial for positioning the close button */
+}
+
+/* in public/style.css */
+
+.modal-close {
+    position: absolute !important; /* Forcing position */
+    top: 10px !important;
+    right: 20px !important;
+    left: auto !important;     /* Explicitly remove left positioning */
+    color: red !important;      /* Setting color */
+    font-size: 28px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    transition: opacity 0.2s !important;
+}
+
+.modal-close:hover {
+    opacity: 0.7;
+}
+
+#listAllContainer .list-item { background-color: #f9fafb; padding: 10px 15px; border-radius: 6px; margin-bottom: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s, background-color 0.2s; }
+#listAllContainer .list-item:hover { border-color: var(--accent-color); background-color: #f0f0f0; }
+
+
+/* ================================================================== */
+/* --- 4. Navigation Bar Styles (Corrected) --- */
+/* ================================================================== */
+
+
+/* Responsive Navigation Rules */
+@media (max-width: 768px) {
+  .topnav .topnav-links-container .main-nav-links {
+    display: none; /* Hide the main links on mobile by default */
+  }
+  .topnav .topnav-icon {
+    display: block; /* Show the hamburger icon */
+  }
+  .topnav.responsive {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .topnav.responsive .topnav-links-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    order: 3; /* Place it below the brand and icon */
+  }
+  /* Show the main nav links when the menu is open */
+  .topnav.responsive .main-nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+  .topnav.responsive .nav-link {
+    background-color: var(--primary-dark);
+    width: 100%;
+    justify-content: flex-start;
+    padding: 15px 25px;
+    height: auto;
+    border-top: 1px solid var(--primary-color);
+  }
+}
+
+/* ================================================================== */
+/* --- 5. Quick Navigation FAB --- */
+/* ================================================================== */
+.quick-nav-fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background-color: var(--accent-color); color: var(--white); border-radius: 50%; border: none; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; z-index: 1050; transition: transform 0.2s; }
+.quick-nav-fab:hover { transform: scale(1.1); }
+.quick-nav-menu { position: fixed; bottom: 90px; right: 20px; list-style: none; padding: 0; margin: 0; z-index: 1040; transform: scale(0); transform-origin: bottom right; transition: transform 0.2s ease-in-out; }
+.quick-nav-menu.active { transform: scale(1); }
+.quick-nav-menu li { margin-bottom: 10px; }
+.quick-nav-menu a { display: flex; align-items: center; gap: 12px; background: var(--primary-dark); color: var(--white); text-decoration: none; padding: 12px 18px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); white-space: nowrap; transition: background-color 0.2s; }
+.quick-nav-menu a:hover { background-color: var(--primary-color); }
+
+/* ================================================================== */
+/* --- 6. Page-Specific Component Styles --- */
+/* ================================================================== */
+.item-details-grid { display: grid; grid-template-columns: 180px 1fr; gap: 25px; align-items: flex-start; }
+.item-image-placeholder { width: 180px; height: 180px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.item-image { width: 100%; height: 100%; object-fit: contain; }
+.detail-list { list-style: none; padding: 0; margin: 0; }
+.detail-list li { display: flex; justify-content: space-between; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+.detail-list li:last-child { border-bottom: none; }
+.detail-list .label { font-weight: 500; color: #555; }
+.detail-list .value { text-align: right; }
+
+/* This ensures the location bar is always the orange accent color */
+.location-bar {
+  background-color: var(--accent-color);
+  color: var(--white);
+  padding: 12px 20px;
+  margin-top: 20px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+.location-bar .fas {
+  margin-right: 10px;
+}
+
+.visual-layout-toggle { margin-top: 20px; }
+
+.selected-items-list { list-style: none; padding: 0; margin-top: 15px; }
+.selected-items-list li { background-color: #f9fafb; padding: 10px 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s, background-color 0.2s; }
+.selected-items-list li:hover { border-color: var(--accent-color); }
+.selected-items-list li.active { background-color: var(--primary-color); color: var(--white); border-color: var(--primary-dark); font-weight: bold; }
+.selected-items-list .item-name-details { flex-grow: 1; }
+.selected-items-list li.active .remove-item, .selected-items-list li.active small { color: var(--white); }
+.item-quantity-control { display: flex; align-items: center; gap: 0; margin: 0 20px; }
+.item-quantity-control input { width: 50px; text-align: center; border-left: none; border-right: none; -moz-appearance: textfield; }
+.item-quantity-control input::-webkit-outer-spin-button, .item-quantity-control input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.qty-btn { background-color: #f0f3f5; border: 1px solid var(--border-color); color: var(--primary-dark); cursor: pointer; font-size: 1.2rem; font-weight: bold; padding: 5px 12px; height: 100%; user-select: none; }
+.qty-btn:hover { background-color: #e4e9ec; }
+.qty-btn.minus-btn { border-radius: 6px 0 0 6px; }
+.qty-btn.plus-btn { border-radius: 0 6px 6px 0; }
+
+.visual-layout-container { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); }
+.visual-layout-title { margin-bottom: 1rem; font-size: 1.1em; font-weight: 600; color: var(--primary-dark); text-align: center; }
+.visual-layout-grid { width: 100%; border-collapse: collapse; border: 1px solid #dee2e6; }
+.visual-layout-grid th, .visual-layout-grid td { border: 1px solid #dee2e6; padding: 0.75rem 0.5rem; text-align: center; height: 55px; }
+.visual-layout-grid th { background-color: var(--primary-dark); color: var(--white); font-weight: 600; }
+.visual-layout-grid .row-header { background-color: #f1f3f5; color: #495057; font-weight: 600; width: 100px; }
+.visual-layout-grid td { background-color: #fff; font-size: 0.9em; }
+.visual-layout-grid td.highlight { border: 2px solid var(--accent-color); background-color: #fffaf0; font-weight: bold; color: var(--primary-dark); }
+.visual-layout-wrapper { overflow-x: auto; padding-bottom: 10px; border: 1px solid var(--border-color); border-top: none; }
+
+/* Add these new rules to your style.css file */
+
+/* --- Activity Feed Specific Styles --- */
+.activity-group {
+    border-bottom: 1px solid var(--border-color);
+}
+.activity-group:last-child {
+    border-bottom: none;
+}
+.activity-date-header {
+    padding: 15px 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none; /* Removes the default disclosure triangle */
+}
+.activity-date-header::-webkit-details-marker {
+    display: none; /* Hides marker in Chrome/Safari */
+}
+.activity-date-header i {
+    transition: transform 0.2s;
+}
+details[open] > .activity-date-header i {
+    transform: rotate(180deg);
+}
+.activity-feed {
+    list-style: none;
+    padding: 0 10px 10px 10px;
+}
+.feed-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px 0;
+    border-top: 1px solid #f0f0f0;
+}
+.activity-feed > .feed-item:first-child {
+    border-top: none;
+}
+.feed-icon {
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+    margin-top: 3px;
+}
+.feed-content p {
+    margin: 0;
+    line-height: 1.4;
+}
+.feed-content .user {
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+.feed-content .timestamp {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* Icon Colors */
+.feed-icon.checkout { color: var(--success-color); }
+.feed-icon.checkin { color: var(--primary-color); }
+.feed-icon.attention { color: var(--error-color); }
+.feed-icon.admin { color: #6c757d; }
+
+/* ================================================================== */
+/* --- 7. Preloader Styles --- */
+/* ================================================================== */
+.preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(244, 246, 248, 0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease, visibility 0.5s ease; opacity: 1; visibility: visible; }
+.preloader.hidden { opacity: 0; visibility: hidden; }
+.preloader-content { position: relative; width: 150px; height: 150px; display: flex; justify-content: center; align-items: center; }
+.preloader-logo { width: 100px; height: auto; animation: pulse 1.5s ease-in-out infinite; }
+.preloader-spinner { position: absolute; top: 0; left: 0; width: 150px; height: 150px; border: 5px solid transparent; border-top-color: var(--primary-color); border-bottom-color: var(--accent-color); border-radius: 50%; animation: spin 1.2s linear infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* ========================================================== */
+/* --- 8. Responsive Styles --- (REPLACE THIS WHOLE SECTION) */
+/* ========================================================== */
+
+@media (max-width: 992px) {
+  .admin-main-grid, .operations-main-grid { grid-template-columns: 1fr; }
+  .admin-sidebar, .operations-sidebar { margin-bottom: 1.5rem; }
+}
+
+/* --- Mobile First: Define Carousel Behavior --- */
+@media (max-width: 768px) {
+  /* Hides the links container by default on mobile */
+  .topnav .topnav-links-container {
+    display: none;
+  }
+  /* Shows the hamburger icon on mobile */
+  .topnav .topnav-icon {
+    display: block;
+  }
+  /* This is the class that gets toggled by JavaScript */
+  .topnav.responsive {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  /* When .responsive is active, the links container becomes a vertical block */
+  .topnav.responsive .topnav-links-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    order: 3; /* Puts it below the brand and icon */
+  }
+  /* Styles for the individual links in the expanded mobile menu */
+  .topnav.responsive .nav-link {
+    background-color: var(--primary-dark);
+    width: 100%;
+    justify-content: flex-start;
+    padding: 15px 25px;
+    height: auto;
+    border-top: 1px solid var(--primary-color);
+  }
+}
+  .item-details-grid { grid-template-columns: 1fr; }
+  .item-image-placeholder { margin: 0 auto 1.5rem auto; }
+  
+  /* THIS IS THE KEY CAROUSEL LOGIC FOR MOBILE */
+  .carousel-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+  }
+  .carousel-container::-webkit-scrollbar {
+    display: none;
+  }
+  .carousel-slide {
+    flex: 0 0 95%;
+    width: 100%;
+    scroll-snap-align: center;
+    padding: 0 5px;
+  }
+  
+  /* Ensure the cards inside the slides don't have extra margins */
+  .carousel-slide .dashboard-section,
+  .carousel-slide .summary-card,
+  .carousel-slide .explorer-card {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .pagination-dots { display: flex; justify-content: center; gap: 10px; margin: 5px 0 25px 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background-color: #ccc; transition: background-color 0.3s; }
+  .dot.active { background-color: var(--primary-color); }
+
+  .activity-filter-buttons { display: none; }
+  .activity-filter-dropdown { display: block; width: 100%; }
+}
+
+/* --- Desktop Override: Turn Carousels into Grids --- */
+@media (min-width: 769px) {
+  .pagination-dots { display: none; }
+  .activity-filter-dropdown { display: none; }
+  
+  /* THIS IS THE KEY GRID LOGIC FOR DESKTOP */
+  .carousel-container {
+    display: grid;
+    overflow: visible;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  /* This tells the slides to simply act as grid items */
+  .carousel-slide {
+    display: contents;
+  }
+}
+
+
+
+/* ================================================================== */
+/* --- 9. FINAL: Global Mobile Responsiveness Rules --- */
+/* ================================================================== */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.user-list-item .user-info,
+.selected-items-list .item-name-details,
+td {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  .user-management-grid,
+  .db-section,
+  .generator-grid {
+    grid-template-columns: 1fr;
+  }
+  .content-block {
+    padding: 15px;
+  }
+}
+
+/* ========================================================== */
+/* --- 10. Dashboard Page Specific Styles (Final Version) --- */
+/* ========================================================== */
+
+/* --- Quick Actions Bar --- */
+.quick-actions-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+.quick-actions-bar .btn { font-size: 1.2rem; padding: 15px; }
+.quick-actions-bar .btn-secondary { background-color: #343a40; }
+.quick-actions-bar .btn-secondary:hover { background-color: #23272b; }
+.quick-actions-bar .btn-accent { background-color: var(--accent-color); }
+.quick-actions-bar .btn-accent:hover { background-color: #E65100; }
+
+/* --- Dashboard Grid & Card System --- */
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+.summary-card, .dashboard-section, .explorer-card { background-color: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.summary-card, .explorer-card { text-align: center; }
+.summary-card .fas, .explorer-card .fas { font-size: 2.5rem; margin-bottom: 10px; }
+.summary-card h3, .explorer-card h4 { font-size: 1.1rem; margin: 0; border: none; padding: 0; }
+.summary-card .fas { color: var(--primary-color); }
+.summary-card.attention .fas { color: var(--error-color); }
+.summary-count { font-size: 2.2rem; font-weight: bold; margin: 0; }
+.explorer-card { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+.explorer-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+#dashboard-content > * {
+    margin-bottom: 30px;
+}
+
+/* This removes the extra space after the very last element */
+#dashboard-content > *:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Zone Explorer Drill-Down --- */
+.explorer-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+.explorer-header h2 { margin: 0; border: none; padding: 0; flex-grow: 1; text-align: center; }
+.explorer-header .btn { padding: 8px 15px; font-size: 1rem; background-color: var(--primary-color); } /* Blue Back Button */
+.explorer-item-list-container { max-height: 40vh; overflow-y: auto; }
+.explorer-item-list { list-style: none; padding: 0; margin: 0; }
+.explorer-item-list li { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #f0f0f0; }
+.explorer-item-list .item-name { font-weight: 500; }
+.explorer-item-list .item-status { font-weight: bold; }
+.explorer-item-list .text-success { color: var(--success-color); }
+.explorer-item-list .text-danger { color: var(--error-color); }
+
+/* --- Activity Feed Filters --- */
+.activity-filter-buttons .btn { background-color: #f0f3f5; color: var(--primary-dark); border: 1px solid var(--border-color); }
+.activity-filter-buttons .btn.active, .activity-filter-buttons .btn:hover { background-color: var(--primary-dark); color: var(--white); border-color: var(--primary-dark); }
+/* On larger screens (desktops), hide the dropdown and show the buttons */
+@media (min-width: 769px) {
+    .activity-filter-buttons {
+        display: flex; /* Use flex to show the buttons */
+        gap: 10px;
+    }
+    .activity-filter-dropdown {
+        display: none; /* Hide the dropdown */
+    }
+}
+
+/* --- Responsive Overrides --- */
+@media (max-width: 768px) {
+    .quick-actions-bar { grid-template-columns: 1fr; }
+    .dashboard-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 15px; margin-left: -10px; margin-right: -10px; gap: 0; }
+    .dashboard-grid::-webkit-scrollbar { display: none; }
+    .dashboard-grid > * { flex: 0 0 90%; scroll-snap-align: center; margin: 0 10px; }
+    .pagination-dots { display: flex; justify-content: center; gap: 10px; margin: -10px 0 25px 0; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background-color: #ccc; }
+    .dot.active { background-color: var(--primary-color); }
+}
+@media (min-width: 769px) {
+    .pagination-dots { display: none; }
+}
+
+.dashboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.dashboard-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.dashboard-list li:last-child {
+  border-bottom: none;
+}
+.dashboard-list .item-name {
+  font-weight: 500;
+}
+.dashboard-list .item-count {
+  font-weight: bold;
+  color: var(--primary-dark);
+  background-color: #e9ecef; /* This creates the grey badge */
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+/* Add this entire block to the end of your style.css file */
+
+/* --- Search Page: Item Details Grid --- */
+.item-details-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr; /* Image column and details column */
+    gap: 30px;
+    align-items: flex-start;
+}
+.item-image-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.detail-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.1rem;
+}
+.detail-list li:last-child {
+    border-bottom: none;
+}
+.detail-list .label {
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+/* --- Search Page: Visual Location Table --- */
+.visual-layout-grid {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.visual-layout-grid th,
+.visual-layout-grid td {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    text-align: center;
+    min-width: 100px; /* Ensures columns don't get too squished */
+}
+
+.visual-layout-grid th {
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.visual-layout-grid .row-header {
+    background-color: #f1f3f5;
+    color: #495057;
+    font-weight: bold;
+}
+
+.visual-layout-grid td.highlight {
+    background-color: var(--accent-color) !important;
+    color: white;
+    font-weight: bold;
+    border: 2px solid var(--primary-dark);
+}
+
+/* ========================================================== */
+/* --- Operations Page Specific Layout --- */
+/* ========================================================== */
+
+/* --- 6. Page-Specific Component Styles --- */
+/* Operations Page */
+.operations-main-grid { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; align-items: flex-start; }
+.operations-sidebar { padding: 1.5rem; background: var(--white); border-radius: 8px; }
+.operations-content { padding: 1.5rem 2rem; background: var(--white); border-radius: 8px; }
+.nav-list { list-style: none; padding: 0; margin: 0; }
+.nav-list-item { display: flex; align-items: center; gap: 12px; font-weight: 500; padding: 12px; border-radius: 6px; cursor: pointer; margin-bottom: 5px; }
+.nav-list-item:hover { background-color: #f4f6f8; }
+.nav-list-item.active { background-color: var(--primary-color); color: var(--white); }
+.content-view { display: none; }
+.content-view.active { display: block; }
+.tab-navigation { display: flex; border-bottom: 2px solid var(--border-color); margin-bottom: 1.5rem; }
+.tab-button { background:none; border:none; padding:12px 20px; cursor:pointer; font-size:1rem; font-weight:500; color:#666; border-bottom:3px solid transparent; }
+.tab-button .fas { margin-right: 8px; }
+.tab-button:hover { color: var(--primary-color); }
+.tab-button.active { color: var(--primary-color); border-bottom-color: var(--primary-color); font-weight:600; }
+.item-selector-group { display: flex; gap: 10px; align-items: flex-end; }
+.item-selector-group .form-group { flex-grow: 1; position: relative; margin-bottom: 0; }
+.autocomplete-list { position: absolute; background: var(--white); border: 1px solid var(--border-color); border-top: none; z-index: 100; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.autocomplete-list-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; }
+.autocomplete-list-item:hover { background-color: #f0f0f0; }
+.selected-items-list { list-style: none; padding: 0; margin-top: 15px; }
+.selected-items-list li { background-color: #f9fafb; padding: 10px 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; border: 2px solid transparent; }
+.selected-items-list li:hover { border-color: var(--accent-color); }
+.selected-items-list li.active { background-color: var(--primary-color); color: var(--white); border-color: var(--primary-dark); }
+.selected-items-list li.active small, .selected-items-list li.active .remove-item { color: var(--white); }
+.item-name-details { flex-grow: 1; }
+.item-quantity-control { display: flex; align-items: center; }
+.qty-input { width: 60px; text-align: center; border-radius: 0; }
+.qty-btn { padding: 8px 12px; font-size: 1rem; }
+.remove-item { font-size: 1.2rem; color: var(--error-color); margin-left: 15px; }
+.item-details-grid { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: flex-start; }
+.item-image-placeholder { width: 150px; height: 150px; background-color: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.item-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+.detail-list { list-style: none; padding: 0; margin: 0; }
+.detail-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+.detail-list .label { font-weight: 500; }
+
+.visual-layout-toggle { margin-top: 10px; }
+.visual-layout-container { margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+.checkoff-list { list-style: none; padding: 0; }
+.checkoff-list li { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid #eee; }
+.checkoff-list input[type="checkbox"] { width: 20px; height: 20px; }
+
+/* --- 7. Preloader Styles --- */
+.preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(244, 246, 248, 0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; opacity: 1; }
+.preloader.hidden { opacity: 0; pointer-events: none; }
+
+/* --- 8. Responsive Styles --- */
+@media (max-width: 768px) {
+    .topnav .main-nav-links { display: none; }
+    .topnav .topnav-icon { display: block; }
+    .topnav.responsive { flex-wrap: wrap; }
+    .topnav.responsive .topnav-links-container { display: flex; flex-direction: column; width: 100%; order: 3; }
+    .topnav.responsive .main-nav-links { display: flex; flex-direction: column; width: 100%; }
+    .topnav.responsive .nav-link { width: 100%; justify-content: flex-start; padding: 15px; border-top: 1px solid var(--primary-color); }
+    
+    .operations-main-grid { grid-template-columns: 1fr; }
+    .operations-sidebar { margin-bottom: 1.5rem; }
+    .item-details-grid { grid-template-columns: 1fr; }
+    .item-image-placeholder { margin: 0 auto 1rem; }
+    .item-selector-group { flex-direction: column; align-items: stretch; }
+}
+
+.visual-layout-wrapper {
+    overflow-x: auto; /* This makes the grid scrollable horizontally */
+    padding-bottom: 10px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+}
+
+.visual-layout-grid td.highlight {
+    background-color: var(--accent-color) !important;
+    color: white;
+    font-weight: bold;
+    border: 2px solid var(--primary-dark);
+    vertical-align: middle;
+}
+
+.visual-layout-grid td.highlight span {
+    display: block;
+    font-size: 0.8em;
+    line-height: 1.2;
+    word-break: break-all;
+}
+
+/* Appended Chatbot Styles */
+/* ... (existing style.css content) ... */
+
+/* Operations Page: Ensure message box has margin */
+#view-Checkout .message-box {
+    margin-bottom: 20px;
+}
+
+/* ========================================================== */
+/* --- 11. Universal Chatbot Widget Styles --- */
+/* ========================================================== */
+#chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+#chat-toggle {
+    width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4); display: flex;
+    align-items: center; justify-content: center; transition: all 0.3s ease; position: relative;
+}
+#chat-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6); }
+#chat-toggle svg { fill: white; width: 24px; height: 24px; }
+.notification-badge {
+    position: absolute; top: -5px; right: -5px; background: #ff4757; color: white;
+    border-radius: 50%; width: 20px; height: 20px; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+#chat-window {
+    width: 350px; height: 500px; background: white; border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); display: none; flex-direction: column;
+    position: absolute; bottom: 80px; right: 0; overflow: hidden;
+}
+#chat-window.show { display: flex; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.chat-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+    padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+}
+.bot-info { display: flex; align-items: center; gap: 10px; }
+.bot-avatar {
+    width: 35px; height: 35px; background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.bot-details h3 { font-size: 16px; margin-bottom: 2px; }
+.bot-status { font-size: 12px; opacity: 0.9; }
+.close-btn { background: none; border: none; color: white; cursor: pointer; font-size: 18px; padding: 5px; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 20px; background: #f8f9fa; }
+.message { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px; }
+.message.user { flex-direction: row-reverse; }
+.message-avatar {
+    width: 30px; height: 30px; border-radius: 50%; background: #667eea;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 12px; flex-shrink: 0;
+}
+.message.user .message-avatar { background: #28a745; }
+.message-content { max-width: 80%; padding: 12px 15px; border-radius: 15px; background: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+.message.user .message-content { background: #667eea; color: white; }
+.quick-actions { padding: 10px 20px; background: white; border-top: 1px solid #e9ecef; }
+.quick-actions-title { font-size: 12px; color: #6c757d; margin-bottom: 8px; }
+.action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.action-btn {
+    background: #f8f9fa; border: 1px solid #dee2e6; padding: 6px 12px;
+    border-radius: 15px; font-size: 12px; cursor: pointer; transition: all 0.2s ease;
+}
+.action-btn:hover { background: #667eea; color: white; border-color: #667eea; }
+.chat-input { padding: 15px 20px; background: white; border-top: 1px solid #e9ecef; display: flex; gap: 10px; align-items: center; }
+.chat-input input {
+    flex: 1; border: 1px solid #dee2e6; border-radius: 20px;
+    padding: 10px 15px; outline: none; font-size: 14px;
+}
+.chat-input input:focus { border-color: #667eea; }
+.send-btn {
+    background: #667eea; border: none; color: white; width: 35px; height: 35px;
+    border-radius: 50%; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; transition: all 0.2s ease;
+}
+.send-btn:hover { background: #5a6fd8; transform: scale(1.05); }
+.send-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+.typing-indicator { display: none; padding: 10px 15px; color: #6c757d; font-size: 12px; font-style: italic; }
+.lead-form { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 10px; padding: 15px; margin: 10px 0; }
+.lead-form h4 { color: #495057; margin-bottom: 10px; font-size: 14px; }
+.lead-form .form-group { margin-bottom: 10px; }
+.lead-form .form-group input, .lead-form .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #dee2e6; border-radius: 5px; font-size: 12px; }
+.lead-form .form-group label { display: block; margin-bottom: 5px; font-size: 12px; color: #495057; }
+.submit-lead-btn {
+    background: #28a745; color: white; border: none; padding: 8px 15px;
+    border-radius: 5px; cursor: pointer; font-size: 12px; width: 100%;
+}
+.submit-lead-btn:hover { background: #218838; }
+@media (max-width: 768px) {
+    #chat-window {
+        width: 100vw; height: 100vh; bottom: 0; right: 0;
+        border-radius: 0; position: fixed;
+    }
+    #chatbot-widget { bottom: 15px; right: 15px; }
+}
+
+/* ========================================================== */
+/* --- 13. Operations Page: Project Kit / Bulk Styles --- */
+/* ========================================================== */
+
+.checkoff-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.checkoff-list-item {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    align-items: center;
+    gap: 10px; /* Space between the top row and the location bar */
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--white);
+    transition: background-color 0.2s;
+}
+
+.checkoff-list-item:last-child {
+    border-bottom: none;
+}
+
+.component-top-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.checkoff-list-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-dark);
+}
+
+.checkoff-list-item.active small,
+.checkoff-list-item.active .component-icon,
+.checkoff-list-item.active .component-name {
+    color: var(--white);
+}
+
+.checkoff-list-item.active .added-tag {
+    color: #ffdd57; /* A light yellow for visibility on the dark background */
+}
+
+.checkoff-list-item.read-only {
+    background-color: #f8f9fa;
+}
+
+.checkoff-list-item .component-icon {
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+
+.checkoff-list-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.component-details {
+    flex-grow: 1; /* This makes the name and barcode take up available space */
+}
+
+.component-details .component-name {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.component-details small {
+    color: #555;
+    display: block;
+}
+
+.checkoff-list-item .location-bar.small {
+    width: 100%; /* This is the key fix for the orange bar */
+    font-size: 0.85em;
+    padding: 10px 10px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+
+.checkoff-list-item .remove-item {
+    font-size: 1.2rem;
+    color: var(--error-color);
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.checkoff-list-item.active .remove-item {
+    color: var(--white);
+}
+
+
+/* in public/style.css */
+
+/* --- Final Overrides for Bulk Assembly View --- */
+
+.checkoff-list-item {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    padding: 15px !important;
+    gap: 10px !important;
+}
+
+.component-top-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+}
+
+.checkoff-list-item .component-details {
+    flex-grow: 1;
+}
+
+.checkoff-list-item .location-bar.small {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding is included in the width */
+    margin-top: 5px;
+}
+
+
+/* in public/style.css */
+
+/* --- Definitive Grid-Based Fix for Button Alignment --- */
+.manual-assembly-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create two equal-width columns */
+    gap: 10px;
+    align-items: stretch; /* Stretch buttons to be the same height */
+}
+
+.manual-assembly-actions .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 15px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+
+/* ========================================================== */
+/* --- ADMIN PAGE: MAIN LAYOUT & STRUCTURE --- */
+/* ========================================================== */
+
+.admin-main-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* Sidebar and main content */
+    gap: 2.5rem;
+    align-items: flex-start;
+}
+
+.admin-sidebar {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.admin-content {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 1.5rem 2rem;
+}
+
+/* Responsive rule for smaller screens */
+@media (max-width: 992px) {
+  .admin-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================================== */
+/* --- ADMIN PAGE: CONTENT TABS (User Management) --- */
+/* ========================================================== */
+
+.content-tab-navigation {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.content-tab-button {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.content-tab-button:hover {
+    color: var(--primary-color);
+}
+
+.content-tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.notification-badge-tab {
+    background-color: var(--error-color);
+    color: var(--white);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-tab {
+    display: none;
+}
+
+.content-tab.active {
+    display: block;
+}
+
+/* ========================================================== */
+/* --- ADMIN PAGE: CARDS & USER LISTS --- */
+/* ========================================================== */
+
+.user-management-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.tool-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.user-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.user-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.user-list-item:last-child {
+    border-bottom: none;
+}
+
+.user-list-item[data-email]:hover {
+    background-color: #f4f6f8;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-email {
+    font-weight: 500;
+}
+
+.user-role {
+    font-size: 0.9em;
+    color: #555;
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+
+/* ========================================================== */
+/* --- ADMIN PAGE: PERMISSIONS EDITOR --- */
+/* ========================================================== */
+
+.permissions-editor {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.permission-list-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+.permission-list-container h5 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.permission-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.permission-item {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: var(--white);
+    border: 1px solid #e9ecef;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.permission-item:hover {
+    background-color: #eef1f5;
+}
+
+.permission-item.selected {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 90, 158, 0.3);
+}
+
+.permission-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.permission-controls .btn {
+    padding: 10px;
+    line-height: 1;
+}
+
+/* ========================================================== */
+/* --- ADMIN PAGE: PERMISSION OVERRIDE MODAL --- */
+/* ========================================================== */
+
+#confirmationModal.wide .modal-content {
+    max-width: 800px;
+}
+
+/* Ensure buttons in the override modal are spaced correctly */
+.permission-override-controls {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.permission-override-controls label {
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+    margin-bottom: 0;
+}
+
+.permission-override-controls input[type="radio"] {
+    display: none;
+}
+
+.permission-override-controls input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.permission-override-controls input[type="radio"][value="allow"]:checked + label {
+    background-color: var(--success-color);
+}
+
+.permission-override-controls input[type="radio"][value="deny"]:checked + label {
+    background-color: var(--error-color);
+}
+
+/* --- Admin Page: Department Mappings Master-Detail --- */
+.mappings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.mappings-column {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    height: 100%;
+}
+
+.mappings-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--white);
+}
+
+.mappings-list-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.mappings-list-item:last-child {
+    border-bottom: none;
+}
+
+.mappings-list-item:hover {
+    background-color: #eef1f5;
+}
+
+.mappings-list-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.mappings-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.mappings-column .delete-btn {
+    font-size: 1rem;
+    color: #C62828;
+    opacity: 0.6;
+}
+.mappings-column .delete-btn:hover {
+    opacity: 1;
+}
+.mappings-list-item.active .delete-btn {
+    color: var(--white);
+}
+
+/* ========================================================== */
+/* --- Inventory Hub: Order Request Styles --- */
+/* ========================================================== */
+
+.order-request-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.request-list-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.request-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.request-item {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.request-item:hover {
+    border-color: var(--accent-color);
+}
+
+.request-item.active {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.request-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: var(--white);
+}
+.status-badge.pending { background-color: var(--warning-color); }
+.status-badge.approved { background-color: var(--success-color); }
+.status-badge.denied { background-color: var(--error-color); }
+
+.request-item-details {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 8px;
+}
+
+.admin-request-viewer .detail-list .value {
+    font-weight: normal;
+}
+
+.scraped-data-card {
+    display: flex;
+    gap: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+.scraped-data-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+.scraped-data-card .info h5 {
+    margin: 0 0 5px 0;
+}
+.scraped-data-card .info p {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+@media (max-width: 992px) {
+    .order-request-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Inventory Hub: Admin Order Request Tabs --- */
+.admin-request-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.admin-request-tabs .tab-button {
+    background: none;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.admin-request-tabs .tab-button:hover {
+    color: var(--primary-color);
+}
+
+.admin-request-tabs .tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+/* --- Inventory Hub: Bulk Import Enhancements --- */
+.import-options {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 1.5rem;
+}
+
+.import-options h5 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.radio-label input {
+    width: auto;
+}
+
+/* --- Inventory Hub: Image Preview Fixes --- */
+.image-preview-container {
+    display: flex;
+    flex-direction: column; /* Stack text and image vertically */
+    align-items: center;    /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    min-height: 200px;      /* Ensure a consistent minimum height */
+    background-color: #f8f9fa;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 1rem; /* Space before the buttons */
+}
+
+.image-preview-container p {
+    margin: 0 0 10px 0; /* Space between text and image */
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.image-preview-container img {
+    max-width: 100%;       /* Never wider than the container */
+    max-height: 180px;     /* STRICTLY limit the height */
+    width: auto;           /* Maintain aspect ratio */
+    height: auto;          /* Maintain aspect ratio */
+    object-fit: contain;   /* Ensure the whole image is visible without stretching */
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+
+/* ========================================================== */
+/* --- ADMIN PAGE: PROJECT KIT BUILDER STYLES --- */
+/* ========================================================== */
+
+.builder-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.kit-list-panel {
+    border-right: 1px solid var(--border-color);
+    padding-right: 20px;
+}
+
+.kit-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.kit-list-item {
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kit-list-item:hover {
+    background-color: #eef1f5;
+}
+
+.kit-list-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-dark);
+}
+
+.component-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.component-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.component-item input.component-qty {
+    width: 70px;
+    text-align: center;
+}
+
+.component-info {
+    flex-grow: 1;
+}
+
+.remove-component-btn {
+    color: var(--error-color);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.remove-component-btn:hover {
+    transform: scale(1.2);
+}
+
+.read-only-field {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 992px) { 
+    .builder-container {
+        grid-template-columns: 1fr;
+    } 
+    .kit-list-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-right: 0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    } 
+}
+
+/* --- Kit Builder Component Highlighting --- */
+
+.component-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-dark);
+}
+
+.component-item.active .component-info strong,
+.component-item.active .component-info small,
+.component-item.active label {
+    color: var(--white);
+}
+
+.component-item.active .remove-component-btn {
+    color: var(--white);
+}
+
+
+/* ========================================================== */
+/* --- Inventory Hub: Asset Label Generator Styles --- */
+/* ========================================================== */
+
+.generator-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.config-panel, .preview-panel {
+  padding: 50px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--white);
+}
+
+.item-selection-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.item-selection-list .list-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.item-selection-list .list-item:last-child {
+    border-bottom: none;
+}
+
+.item-selection-list .list-item:hover {
+    background-color: #eef1f5;
+}
+
+.item-selection-list .list-item.selected {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+.item-selection-list .list-item.selected small {
+    color: #e0e0e0;
+}
+
+
+#previewArea {
+  border: 2px dashed var(--border-color);
+  padding: 50px;
+  min-height: 500px;
+  background-color: #fdfdfd;
+  overflow: auto;
+  position: relative; /* For the loading overlay */
+}
+
+.label-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.qr-label {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  page-break-inside: avoid; /* Important for printing */
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* This is the key rule for fixing the barcode scaling */
+.qr-label svg {
+  max-width: 100%;
+  height: auto; /* This forces the height to scale proportionally with the width */
+}
+
+.qr-label .barcode-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  margin-top: 5px;
+  font-size: 10px;
+  word-break: break-all;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+@media (max-width: 992px) {
+  .generator-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Asset Label Generator Layout & Print Styles --- */
+
+/* Widen the configuration panel for a better layout */
+.generator-grid {
+    grid-template-columns: 1fr 2fr;
+}
+
+/* Styles for the quantity input in the item list */
+.item-selection-list .list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-selection-list .qty-selector {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.item-selection-list .qty-selector label {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 0;
+}
+
+.item-selection-list .qty-selector input {
+    width: 60px;
+    padding: 5px 8px;
+}
+
+/* Print-specific styles */
+@media print {
+    /* Hide everything on the page by default */
+    body * {
+        visibility: hidden;
+    }
+    /* Make only the preview area and its contents visible */
+    #previewArea, #previewArea * {
+        visibility: visible;
+    }
+    /* Position the preview area at the top of the print page */
+    #previewArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none; /* Remove the dashed border for printing */
+        padding: 0;
+    }
+}
+
+
+/* Styles for the Location Manager modal */
+.location-review-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.problematic-location {
+    background-color: #fffbe6;
+    border: 1px solid #ffe58f;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #664d03;
+    font-weight: bold;
+}
+.correction-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    align-items: end;
+    margin-top: 5px;
+}
+.correction-form .form-group {
+    margin-bottom: 0;
+}
+
+/* ==========================================================
+   --- 12. QR CODE SCANNER STYLES ---
+   ========================================================== */
+
+/* This is the main container for the scanner video and overlays */
+.scanner-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto 0;
+    border-radius: 8px;
+    overflow: hidden; /* Clips the video to the container's rounded corners */
+    z-index: 5;
+}
+
+/* This is the element the html5-qrcode library injects the video into.
+   It should have no border or visible styling itself. */
+#qr-reader {
+    width: 100%;
+    /* NOTE: NO BORDER HERE */
+}
+
+/* This targets the actual <video> element to ensure it fills the container */
+#qr-reader video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the area without distortion */
+}
+
+/* This is the visible white viewfinder box overlay */
+.scanner-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    border: 4px solid rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5); /* This creates the dark overlay OUTSIDE the box */
+}
+
+/* This is the animated red laser line */
+.scanner-laser {
+    position: absolute;
+    left: 15%; /* Start/end inside the box */
+    width: 70%; /* Match the box width */
+    height: 3px;
+    background-color: #ff3b30;
+    box-shadow: 0 0 8px #ff3b30, 0 0 16px #ff3b30;
+    animation: scan-anim 2.5s infinite linear;
+    border-radius: 2px;
+}
+
+/* Animation definition for the laser */
+@keyframes scan-anim {
+    0% { top: 15%; }
+    50% { top: 85%; }
+    100% { top: 15%; }
+}
+
+/* z-index fix to ensure the modal's title and close button
+   appear above the dark overlay created by the scanner-box. */
+.modal-content h3, .modal-content .modal-close {
+    position: relative;
+    z-index: 10;
+}
+
+/* This targets the default viewfinder box created by the html5-qrcode 
+   library and hides it, leaving only our custom .scanner-box visible. */
+#qr-reader div[style*="border"] {
+    display: none !important;
+}
+
+/* Existing or new styles for the close button */
+#modal-close-btn {
+ position: absolute; /* To position it relative to the modal */
+ top: 10px; /* Adjust as needed for vertical placement */
+ right: 15px; /* Adjust as needed for horizontal placement */
+ font-size: 20px; /* Adjust size as desired */
+ color: red; /* Set the color to red */
+ cursor: pointer; /* Add a pointer on hover for better UX */
+ background: none; /* Remove default button background */
+ border: none; /* Remove button border */
+ padding: 0; /* Remove default padding */
+ z-index: 10; /* Ensure it's above other modal content */
+}
+
+#modal-close-btn:hover {
+ opacity: 0.8; /* Optional: add a slight visual feedback on hover */
+}
+
+
+/* In public/style.css */
+/* --- 14. Universal Chatbot Widget Styles --- */
+
+#chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+}
+#chat-toggle {
+    width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4); display: flex;
+    align-items: center; justify-content: center; transition: all 0.3s ease; position: relative;
+}
+#chat-toggle svg { fill: white; width: 24px; height: 24px; }
+.notification-badge {
+    position: absolute; top: -5px; right: -5px; background: #ff4757; color: white;
+    border-radius: 50%; width: 20px; height: 20px; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+}
+#chat-window {
+    width: 350px; height: 500px; background: white; border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); display: none; flex-direction: column;
+    position: absolute; bottom: 80px; right: 0; overflow: hidden;
+}
+#chat-window.show { display: flex; }
+.chat-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;
+    padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+}
+.chat-messages { flex: 1; overflow-y: auto; padding: 20px; background: #f8f9fa; }
+.message { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px; }
+.message.user { flex-direction: row-reverse; }
+.message-avatar {
+    width: 30px; height: 30px; border-radius: 50%; background: #667eea;
+    display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; flex-shrink: 0;
+}
+.message.user .message-avatar { background: #28a745; }
+.message-content { max-width: 80%; padding: 12px 15px; border-radius: 15px; background: white; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+.message.user .message-content { background: #667eea; color: white; }
+.chat-input { padding: 15px 20px; background: white; border-top: 1px solid #e9ecef; display: flex; gap: 10px; align-items: center; }
+.chat-input input { flex: 1; border: 1px solid #dee2e6; border-radius: 20px; padding: 10px 15px; outline: none; font-size: 14px; }
+.send-btn { background: #667eea; border: none; color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.chatbot-footer { padding: 5px 15px; font-size: 10px; text-align: center; background: #f8f9fa; color: #6c757d; }
+
+/* Collapsible Quick Actions Styles */
+.quick-actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 5px;
+}
+#quick-actions-toggle-icon {
+    transition: transform 0.3s ease;
+}
+.action-buttons {
+    transition: all 0.3s ease-in-out;
+    max-height: 200px;
+    overflow: hidden;
+    padding-top: 8px;
+}
+.action-buttons.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    opacity: 0;
+}
+#quick-actions-toggle-icon.collapsed {
+    transform: rotate(180deg);
+}
+
+/* In /public/style.css */
+/* --- 16. User Profile Dropdown Styles --- */
+
+.user-actions-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- User Profile Dropdown --- */
+.user-profile-container {
+    position: relative;
+}
+.user-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+.user-profile-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.user-avatar {
+    width: 30px; height: 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    color: var(--white);
+}
+.user-name {
+    color: var(--white);
+    font-weight: 500;
+}
+.profile-dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: var(--white);
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    min-width: 180px;
+    z-index: 1100;
+    overflow: hidden;
+    padding: 0.5rem 0;
+}
+.profile-dropdown-menu.active {
+    display: block; /* Shown with JavaScript */
+}
+.profile-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-size: 0.95rem;
+}
+.profile-dropdown-menu a:hover {
+    background-color: var(--light-bg);
+}
+
+
+/* ==========================================================================
+   NexVentory - FINAL CONSOLIDATED & THEMED STYLESHEET
+   ========================================================================== */
+
+/* --- 1. Color Palettes & Global Styles --- */
+:root {
+    /* -- CONSTANT COLORS -- */
+    --header-bg: #003d6b;
+    --header-text: #e0e0e0;
+    --header-text-hover: #ffffff;
+    --header-hover-bg: rgba(255, 255, 255, 0.15);
+    --accent-color: #F57C00;
+    --accent-dark: #E65100;
+    --success-color: #2E7D32;
+    --error-color: #C62828;
+    --white: #FFFFFF;
+    --black: #000000;
+
+    /* -- LIGHT THEME (Default) -- */
+    --main-bg: #eef2f5;
+    --content-bg: #ffffff;
+    --sidebar-bg: rgba(248, 249, 250, 0.75);
+    --primary-text-color: #212529;
+    --secondary-text-color: #6c757d;
+    --border-color: #dee2e6;
+    --link-color: #007bff;
+    --link-hover-bg: #e9ecef;
+    --sidebar-link-color: #34495e;
+    --sidebar-link-active-bg: #007bff;
+    --sidebar-link-active-text: #ffffff;
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+    --input-bg: #ffffff;
+    --list-item-hover-bg: #eef1f5;
+    --list-item-bg: #f9fafb;
+}
+
+body.dark-mode {
+    /* -- DARK THEME (Overrides) -- */
+    --main-bg: #212529;
+    --content-bg: #2c3034;
+    --sidebar-bg: rgba(33, 37, 41, 0.75);
+    --primary-text-color: #f8f9fa;
+    --secondary-text-color: #adb5bd;
+    --border-color: #495057;
+    --link-color: #4dabf7;
+    --link-hover-bg: #343a40;
+    --sidebar-link-color: #f8f9fa;
+    --sidebar-link-active-bg: #4dabf7;
+    --sidebar-link-active-text: #212529;
+    --button-bg: #4dabf7;
+    --button-text: #212529;
+    --input-bg: #343a40;
+    --list-item-hover-bg: #343a40;
+    --list-item-bg: #272b2f;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--main-bg); color: var(--primary-text-color); transition: background-color 0.2s, color 0.2s; }
+
+/* --- 2. Main Layout --- */
+.app-wrapper { display: flex; flex-direction: column; height: 100vh; }
+.top-bar { height: 60px; background-color: var(--header-bg); border-bottom: 1px solid #002a4a; display: flex; align-items: center; padding: 0 1.5rem; z-index: 1000; flex-shrink: 0; }
+./* Ensure the container fills the space below the header */
+.app-container {
+    display: flex;
+    height: calc(100vh - 60px); /* 60px is header height */
+    overflow: hidden;
+}
+
+/* Ensure the main content takes up all remaining width */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #f4f6f8;
+    padding: 20px;
+}
+.sidebar { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; transition: width 0.3s, background-color 0.2s; border-right: 1px solid var(--border-color); background: var(--sidebar-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.main-content {
+    flex-grow: 1;
+    /* The scrollbar now lives here, not on the body */
+    overflow-y: auto; 
+    padding: 2rem;
+}
+
+footer#app-footer {
+    flex-shrink: 0; /* Prevents footer from shrinking */
+    background-color: #212529;
+    color: #ccc;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+footer a { color: #4dabf7; text-decoration: none; margin: 0 10px; }
+
+/* --- 3. Top Bar Contents --- */
+.top-bar-logo { display: flex; align-items: center; font-size: 1.25rem; font-weight: 600; color: var(--header-text-hover); text-decoration: none; }
+.top-bar-logo img { height: 40px; margin-right: 10px; }
+.top-nav { margin-left: auto; display: flex; gap: 0.5rem; }
+.top-nav a { text-decoration: none; color: var(--header-text); padding: 8px 12px; border-radius: 6px; transition: all 0.2s ease; font-weight: 500; }
+.top-nav a.active, .top-nav a:hover { background-color: var(--header-hover-bg); color: var(--header-text-hover); }
+.top-bar-user { margin-left: 1rem; }
+
+/* --- 4. Sidebar Contents & Collapse --- */
+.sidebar-content { flex-grow: 1; overflow-y: auto; padding: 1rem 0; }
+.sidebar-section-title { padding: 0.5rem 1.5rem; font-size: 0.8rem; font-weight: 600; color: var(--secondary-text-color); text-transform: uppercase; white-space: nowrap; }
+.sidebar-footer { padding: 0.5rem; border-top: 1px solid var(--border-color); }
+.sidebar .nav-links { list-style: none; padding: 0; margin: 0; }
+.sidebar .nav-link { display: flex; align-items: center; padding: 0.75rem 1.5rem; color: var(--sidebar-link-color); text-decoration: none; font-weight: 500; white-space: nowrap; border-radius: 6px; margin: 0.25rem 0.75rem; transition: background-color 0.2s, color 0.2s; }
+.sidebar .nav-link:hover { background-color: var(--link-hover-bg); }
+.sidebar .nav-link.active { background-color: var(--sidebar-link-active-bg); color: var(--sidebar-link-active-text); }
+.sidebar .nav-link i { width: 25px; margin-right: 1rem; text-align: center; font-size: 1.1rem; }
+#sidebar-toggle-btn { cursor: pointer; }
+.sidebar.collapsed { width: 80px; }
+.sidebar.collapsed .link-text, .sidebar.collapsed .sidebar-section-title { display: none; }
+.sidebar.collapsed .nav-link { justify-content: center; }
+.sidebar.collapsed .nav-link i { margin-right: 0; }
+.sidebar.collapsed #sidebar-toggle-btn i { transform: rotate(180deg); }
+
+/* --- 5. Main Content & Components (THEMED) --- */
+.page-header h1, .page-header h2, h1, h2, h3, h4 { color: var(--primary-text-color); }
+.page-header p { color: var(--secondary-text-color); }
+.content-block, .tool-card { background-color: var(--content-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; transition: background-color 0.2s; }
+h2 { border-bottom: 2px solid var(--border-color); }
+label { color: var(--secondary-text-color); font-weight: 500; }
+.form-control { background-color: var(--input-bg); color: var(--primary-text-color); border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; padding: 10px; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-control:focus { border-color: var(--link-color); outline: none; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); }
+.btn { padding: 10px 20px; font-size: 1rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; background-color: var(--button-bg); color: var(--button-text); }
+.btn-success { background-color: var(--success-color); color: var(--white); }
+.btn-accent { background-color: var(--accent-color); color: var(--white); }
+.btn-secondary { background-color: #6c757d; color: var(--white); }
+.modal-content { background-color: var(--content-bg); }
+#listAllContainer .list-item { background-color: var(--main-bg); }
+#listAllContainer .list-item:hover { background-color: var(--list-item-hover-bg); }
+
+/* --- 6. Page-Specific Components (THEMED) --- */
+/* Profile & Admin Pages */
+.user-list { border-color: var(--border-color); }
+.user-list-item { border-bottom-color: var(--border-color); }
+.user-list-item:hover { background-color: var(--main-bg); }
+.user-email, .permission-item { color: var(--primary-text-color); }
+.user-role { background-color: var(--main-bg); color: var(--secondary-text-color); }
+.permission-item { background-color: var(--content-bg); border-color: var(--border-color); }
+.permission-item:hover { background-color: var(--main-bg); }
+.permission-item.selected { background-color: var(--link-color); color: var(--white); }
+.permission-list-container { background-color: var(--main-bg); border-color: var(--border-color); }
+
+/* Operations & Inventory Hub */
+.operations-sidebar, .operations-content, .admin-sidebar, .admin-content { background: var(--content-bg); border-color: var(--border-color); }
+.tab-button { color: var(--secondary-text-color); }
+.tab-button:hover, .tab-button.active { color: var(--link-color); }
+.tab-button.active { border-bottom-color: var(--link-color); }
+.nav-list-item:hover { background-color: var(--main-bg); }
+.nav-list-item.active { background-color: var(--link-color); color: var(--white); }
+.item-image-placeholder { background-color: var(--main-bg); border-color: var(--border-color); }
+.detail-list li { border-bottom-color: var(--border-color); }
+.detail-list .label { color: var(--secondary-text-color); }
+.request-item { background-color: var(--main-bg); border-color: var(--border-color); }
+.request-item-header { color: var(--primary-text-color); }
+.scraped-data-card { background-color: var(--main-bg); }
+.scraped-data-card .info p { color: var(--primary-text-color); }
+
+/* --- 7. Dropdown Menu (THEMED) --- */
+.user-profile-toggle:hover { background-color: var(--header-hover-bg); }
+.user-avatar { background-color: rgba(255, 255, 255, 0.2); color: var(--white); }
+.user-name { color: var(--white); }
+.profile-dropdown-menu { display: none; position: absolute; top: 120%; right: 0; background-color: var(--content-bg); border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); min-width: 180px; z-index: 1100; overflow: hidden; padding: 0.5rem 0; border: 1px solid var(--border-color); }
+.profile-dropdown-menu.active { display: block; }
+.profile-dropdown-menu a { display: flex; align-items: center; gap: 10px; padding: 12px 15px; text-decoration: none; color: var(--primary-text-color); font-size: 0.95rem; }
+.profile-dropdown-menu a:hover { background-color: var(--main-bg); }
+
+/* ==========================================================================
+   FINAL THEME CORRECTIONS
+   ========================================================================== */
+
+/* --- Admin Page: Department & Purpose Mappings --- */
+.mappings-column,
+.mappings-list {
+    background-color: var(--content-bg);
+    border-color: var(--border-color);
+}
+.mappings-list-item {
+    color: var(--primary-text-color);
+}
+.mappings-list-item:hover {
+    background-color: var(--main-bg);
+}
+.mappings-list-item.active {
+    background-color: var(--link-color);
+    color: var(--white);
+}
+.mappings-placeholder {
+    color: var(--secondary-text-color);
+}
+
+/* --- Inventory Hub: Themed Sub-Panels --- */
+/* Fixes the white "Add New Item" and "Bulk Import" panels */
+.content-tab {
+    background-color: var(--content-bg);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+.import-options {
+    background-color: var(--main-bg);
+    border-color: var(--border-color);
+}
+.image-preview-container {
+    background-color: var(--main-bg);
+    border-color: var(--border-color);
+}
+.image-preview-container p {
+    color: var(--secondary-text-color);
+}
+
+/* --- Operations Page: Themed Text Areas --- */
+/* Fixes the white "Items to Transfer" and "Items to Check Out" boxes */
+textarea#selectedItemsDisplay, 
+textarea#selectedTransferItemsDisplay {
+    background-color: var(--input-bg);
+    color: var(--primary-text-color);
+    border-color: var(--border-color);
+}
+
+/* ==========================================================================
+   FINAL THEME CORRECTIONS (Part 2)
+   ========================================================================== */
+
+/* --- Inventory Hub: Asset Label Generator --- */
+.config-panel, .preview-panel {
+    background-color: var(--content-bg);
+    border-color: var(--border-color);
+}
+
+.item-selection-list {
+    background-color: var(--main-bg);
+    border-color: var(--border-color);
+}
+
+#previewArea {
+    background-color: var(--main-bg);
+    border-color: var(--border-color);
+    color: var(--secondary-text-color); /* Styles the placeholder text */
+}
+
+/* ==========================================================================
+   FINAL THEME CORRECTIONS (Part 3)
+   ========================================================================== */
+
+/* 1. Fixes the white text area for "Items to Check Out/Transfer" */
+.operations-content textarea,
+.admin-content textarea {
+    background-color: var(--input-bg);
+    color: var(--secondary-text-color);
+    border: 1px solid var(--border-color);
+    min-height: 80px;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* 2. Fixes the colors for the active sidebar buttons on all pages */
+.operations-sidebar .nav-list-item.active,
+.admin-sidebar .nav-list-item.active {
+    background-color: var(--sidebar-link-active-bg);
+    color: var(--sidebar-link-active-text) !important; /* Use important to override specificity if needed */
+}
+
+/* 3. Proactively fixes the autocomplete dropdown that appears when searching */
+.autocomplete-list {
+    background: var(--content-bg);
+    border-color: var(--border-color);
+}
+.autocomplete-list-item {
+    color: var(--primary-text-color);
+    border-bottom-color: var(--border-color);
+}
+.autocomplete-list-item:hover {
+    background-color: var(--list-item-hover-bg);
+}
+.no-matches {
+    color: var(--secondary-text-color);
+}
+
+/* ==========================================================================
+   FINAL THEME OVERRIDE FOR FORMS & LISTS
+   ========================================================================== */
+
+/* This rule is highly specific to target textareas, inputs, and selects
+   inside your main content blocks, ensuring it overrides any older styles. */
+.main-content .content-block textarea,
+.main-content .content-block input[type="text"],
+.main-content .content-block input[type="url"],
+.main-content .content-block input[type="number"],
+.main-content .content-block select {
+    background-color: var(--input-bg) !important;
+    color: var(--primary-text-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* This specifically targets the list items that appear when you click "List All" */
+#listAllContainer .list-item {
+    background-color: var(--main-bg);
+    color: var(--primary-text-color);
+}
+
+#listAllContainer .list-item small {
+    color: var(--secondary-text-color);
+}
+
+/* Add this to your style.css */
+
+.content-and-footer-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden; /* This is important */
+}
+
+/* --- Operations Page: Themed Item Selector Buttons --- */
+.item-selector-group .btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   FINAL THEME CORRECTIONS (Dashboard)
+   ========================================================================== */
+
+/* --- Dashboard Grid & Card System (Themed) --- */
+.summary-card, 
+.dashboard-section, 
+.explorer-card {
+    background-color: var(--content-bg);
+    color: var(--primary-text-color);
+}
+
+.summary-card h3, .explorer-card h4 {
+    color: var(--secondary-text-color);
+    border-bottom: none; /* remove old borders if any */
+}
+
+.summary-count {
+    color: var(--primary-text-color);
+}
+
+.dashboard-list li {
+    border-bottom-color: var(--border-color);
+}
+
+.dashboard-list .item-count {
+    background-color: var(--main-bg);
+    color: var(--secondary-text-color);
+}
+
+/* --- Activity Feed (Themed) --- */
+.activity-date-header {
+    color: var(--primary-text-color);
+}
+
+.activity-feed {
+    color: var(--primary-text-color);
+}
+
+.feed-item {
+    border-top-color: var(--border-color);
+}
+
+.feed-content .user {
+    color: var(--link-color);
+}
+.feed-content .timestamp {
+    color: var(--secondary-text-color);
+}
+
+/* --- Quick Actions Bar --- */
+.quick-actions-bar .btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+.quick-actions-bar .btn-success {
+    background-color: var(--success-color);
+    color: var(--white);
+}
+.quick-actions-bar .btn-accent {
+    background-color: var(--accent-color);
+    color: var(--white);
+}
+/* ==========================================================================
+   FINAL THEME CORRECTIONS (Operations Page)
+   ========================================================================== */
+
+/* This styles the "Items to Transfer" and "Items to Check Out" boxes */
+.operations-content textarea,
+.admin-content textarea {
+    background-color: var(--input-bg);
+    color: var(--secondary-text-color);
+    border: 1px solid var(--border-color);
+    min-height: 80px;
+    padding: 15px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+/* This themes the "Scan" and "List All" buttons */
+.item-selector-group .btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--border-color);
+}
+/* in public/style.css */
+
+/* ==========================================================
+   FIX FOR OPERATIONS PAGE THEME
+   ========================================================== */
+
+/* This targets the "Items to..." list and its placeholder */
+body.dark-mode .selected-items-list li {
+    background-color: var(--input-bg); /* Uses a dark input background */
+    color: var(--primary-text-color);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .selected-items-list li.placeholder {
+    color: var(--secondary-text-color);
+}
+
+/* This specifically targets the Scan/List All buttons to apply the theme */
+body.dark-mode .item-selector-group .btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--border-color);
+}
+
+/* in public/style.css */
+
+/* ==========================================================
+   FINAL THEME CORRECTIONS (Part 4)
+   ========================================================== */
+
+/* Fix for the Data & Reporting table body */
+body.dark-mode .visual-layout-grid td {
+    background-color: var(--content-bg);
+    color: var(--primary-text-color);
+    border-color: var(--border-color);
+}
+
+/* Fix for the Project Kit Builder component list item */
+body.dark-mode .component-item {
+    background-color: var(--main-bg);
+    color: var(--primary-text-color);
+}
+
+body.dark-mode .component-item label {
+    color: var(--secondary-text-color);
+}
+
+/* in public/style.css */
+
+/* ==========================================================
+   FINAL THEME CORRECTIONS (Part 5 - Visual Layout)
+   ========================================================== */
+
+/* Fixes the blue title "Layout for: ..." in dark mode */
+body.dark-mode .visual-layout-title {
+    color: var(--primary-text-color);
+}
+
+/* Fixes the light grey row headers in the layout grid */
+body.dark-mode .visual-layout-grid .row-header {
+    background-color: var(--content-bg);
+    color: var(--secondary-text-color);
+    border-color: var(--border-color);
+}
+
+/* in public/style.css */
+
+/* ==========================================================
+   THEME FIX FOR CHECKOUT DETAILS BOX
+   ========================================================== */
+
+/* Default (Light Mode) Style */
+.checkout-details-box {
+    background-color: #E3F2FD; /* The original light blue */
+    border: 1px solid #90CAF9;
+}
+
+.checkout-details-box h4 {
+    color: var(--primary-dark);
+    margin-top: 0;
+}
+
+/* Dark Mode Override */
+body.dark-mode .checkout-details-box {
+    background-color: #2c3e50; /* A dark, theme-appropriate blue-grey */
+    border-color: #34495e;
+}
+
+body.dark-mode .checkout-details-box h4 {
+    color: #ecf0f1; /* A light, readable text color for dark backgrounds */
+}
+/* --- Login Page Layout Fix --- */
+#primary-brand-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    padding: 2rem;
+}
+
+.login-logo {
+    max-height: 40vh;
+    width: auto;
+    margin-bottom: 2rem;
+}
+
+.hero-illustration {
+    max-height: 35vh;
+    width: auto;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* --- Login Page Layout Fix --- */
+#primary-brand-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--light-bg);
+    position: fixed; /* Ensures it stays on top */
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 90%;
+}
+
+/* THE CRITICAL FIX FOR THE IMAGE */
+.hero-illustration {
+    max-height: 35vh; /* Restricts height to 35% of the viewport */
+    width: auto;      /* Maintains aspect ratio */
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* FORCE DASHBOARD VISIBILITY */
+.app-wrapper {
+    display: block; /* The JS toggles this, but this reinforces it */
+    width: 100%;
+    min-height: 100vh; /* Ensures it fills the screen */
+    background-color: #f4f6f8; /* Light grey background so you can see it */
+}
+
+#dashboard-content {
+    padding: 20px;
+    min-height: 500px; /* Forces the content area to be open */
+}

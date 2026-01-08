@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+<div class="app-wrapper">
+
+    <header class="top-bar">
+        <a href="/index.html" class="top-bar-logo">
+            <img src="/assets/logo.png" alt="NexVentory Logo">
+            <span>NexVentory</span>
+        </a>
+        <nav class="top-nav" id="top-nav-links"></nav>
+        <div class="top-bar-user" id="top-bar-user-container"></div>
+    </header>
+
+    <div class="app-container">
+        <nav class="sidebar" id="app-sidebar">
+            <div class="sidebar-content" id="sidebar-content"></div>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                    <span class="link-text">Collapse</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-content" id="main-content">
+           
+            <header class="page-header">
+                <h1>Contact Us</h1>
+                <p>Have a question or need support? Fill out the form below.We'd love to hear from you.</p>
+            </header>
+
+            <div class="content-block">
+                <h2>Get in Touch</h2>
+                <p>For support, bug reports, or general inquiries, the best way to reach us is through the integrated feedback system.</p>
+                <p>Click the chatbot icon in the bottom-right corner and select "Give Feedback" or "Report a Bug" to send a message directly to the development team.</p>
+                <br>
+                <p>For direct inquiries, you can reach out us using the form below:</p>
+            </div>
+
+            <div class="content-block">
+                <div id="contact-message-box" class="message-box" style="display: none; margin-bottom: 1.5rem;"></div>
+                <form id="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="contactName">Your Name</label>
+                            <input type="text" id="contactName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Your Email</label>
+                            <input type="email" id="contactEmail" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiryType">Inquiry Type</label>
+                        <select id="inquiryType" class="form-control" required>
+                            <option value="">-- Please select an option --</option>
+                            <option value="Technical Support">Technical Support</option>
+                            <option value="Billing Question">Billing Question</option>
+                            <option value="Feature Request">Feature Request</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div style="text-align: right;">
+                        <button type="submit" id="submitContactBtn" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> Submit Inquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+            </main>
+    </div>
+
+    <footer id="app-footer"></footer>
+
+</div>
+
+    <div id="chatbot-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+
+</body>
+</html>

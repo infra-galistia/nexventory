@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Hub - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg2pdf.js@2.2.1/dist/svg2pdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <header class="top-bar">
+            <a href="/index.html" class="top-bar-logo">
+                <img src="/assets/logo.png" alt="NexVentory Logo">
+                <span>NexVentory</span>
+            </a>
+            <nav class="top-nav" id="top-nav-links"></nav>
+            <div class="top-bar-user" id="top-bar-user-container"></div>
+        </header>
+
+        <div class="app-container">
+            <nav class="sidebar" id="app-sidebar">
+                <div class="sidebar-content" id="sidebar-content"></div>
+                <div class="sidebar-footer">
+                    <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="link-text">Collapse</span>
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content" id="main-content">
+                <div id="hub-loader" class="loading-placeholder" style="height: 60vh;">
+                    <span class="spinner"></span> Loading Inventory Hub...
+                </div>
+                
+                <div id="hub-container" style="display: none;">
+                    <header class="page-header">
+                        <h2 id="hub-page-title">Inventory Hub</h2>
+                        <p id="hub-page-subtitle">The central place for all day-to-day management of physical items and assets.</p>
+                    </header>
+
+                    <section id="content-panel" class="admin-content"></section>
+                </div>
+            </main>
+        </div>
+
+        <footer id="app-footer"></footer>
+
+    </div>
+
+    <div id="preloader" class="preloader"></div>
+    <div id="scanModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close-btn">&times;</span>
+            <h3>Scan Item QR/Barcode</h3>
+            <div class="scanner-container">
+                <div id="qr-reader"></div>
+                <div class="scanner-box">
+                    <div class="scanner-laser"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="listAllModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>Select an Item</h3>
+            <div class="form-group">
+                <input type="text" id="listAllFilterInput" class="form-control" placeholder="Filter items by name or barcode...">
+            </div>
+            <div id="listAllContainer" style="max-height: 60vh; overflow-y: auto;">
+                </div>
+        </div>
+    </div>
+    <div id="locationReviewModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="modal-close">&times;</span>
+        <h3>Review Item Locations</h3>
+        <p>The following items have locations that do not match the "Zone - Row" format. Please correct them below and save your changes.</p>
+        <div id="location-review-list" class="user-list" style="max-height: 60vh; overflow-y: auto;">
+            </div>
+        <div id="location-review-message-box" class="message-box" style="margin-top: 1rem;"></div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <button type="button" class="btn btn-success" id="saveReviewedLocationsBtn">Save Corrections</button>
+        </div>
+    </div>
+</div>
+<div id="chatbot-container"></div>
+    <script src="/__/firebase/8.10.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="script.js"></script>
+    <script src="inventory-hub.js"></script>
+</body>
+</html>

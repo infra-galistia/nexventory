@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App & User Settings - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="app-wrapper">
+
+        <header class="top-bar">
+            <a href="/index.html" class="top-bar-logo">
+                <img src="/assets/logo.png" alt="NexVentory Logo">
+                <span>NexVentory</span>
+            </a>
+            <nav class="top-nav" id="top-nav-links"></nav>
+            <div class="top-bar-user" id="top-bar-user-container"></div>
+        </header>
+
+        <div class="app-container">
+            <nav class="sidebar" id="app-sidebar">
+                <div class="sidebar-content" id="sidebar-content"></div>
+                <div class="sidebar-footer">
+                    <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="link-text">Collapse</span>
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content" id="main-content">
+                <div id="admin-loader" class="loading-placeholder" style="height: 60vh;">
+                    <span class="spinner"></span> Loading Settings...
+                </div>
+                
+                <div id="admin-container" style="display: none;">
+                    <header class="page-header">
+                        <h2 id="admin-page-title">App & User Settings</h2>
+                        <p id="admin-page-subtitle">Manage application settings, dropdowns, and user databases from one place.</p>
+                    </header>
+
+                    <section id="content-panel" class="admin-content"></section>
+                    
+                     <div style="margin-top: 2.5rem; text-align: center;">
+                        <button id="saveAllBtn" class="btn btn-success" style="padding: 12px 30px; font-size: 1.1rem; display: none;">
+                            <i class="fas fa-save"></i> Save All Changes
+                        </button>
+                        <div id="message-box-container" class="message-box" style="display: none; margin-top: 1rem;"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer id="app-footer"></footer>
+
+    </div>
+
+    <div id="preloader" class="preloader"></div>
+    <div id="confirmationModal" class="modal">
+  <div class="modal-content" style="max-width: 500px;">
+    <span class="modal-close">&times;</span>
+    <h3 id="confirmationTitle">Confirmation Required</h3>
+    <div id="confirmationMessage" style="margin-top: 1rem;">Are you sure?</div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn btn-secondary" id="cancelConfirmBtn">Cancel</button>
+        <button type="button" class="btn btn-success" id="proceedConfirmBtn">Proceed</button>
+    </div>
+  </div>
+</div>
+    <div id="chatbot-container"></div>
+    
+    <script src="/__/firebase/8.10.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+    <script src="admin-settings.js"></script>
+</body>
+</html>

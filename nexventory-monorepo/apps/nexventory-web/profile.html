@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <header class="top-bar">
+            <a href="/index.html" class="top-bar-logo">
+                <img src="/assets/logo.png" alt="NexVentory Logo">
+                <span>NexVentory</span>
+            </a>
+            <nav class="top-nav" id="top-nav-links"></nav>
+            <div class="top-bar-user" id="top-bar-user-container"></div>
+        </header>
+
+        <div class="app-container">
+            <nav class="sidebar" id="app-sidebar">
+                <div class="sidebar-content" id="sidebar-content"></div>
+                <div class="sidebar-footer">
+                    <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="link-text">Collapse</span>
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content" id="main-content">
+               
+                <header class="page-header">
+                    <h1>My Profile</h1>
+                    <p>Your current account details and assigned permissions.</p>
+                </header>
+
+                <div id="profile-loader" class="loading-placeholder" style="height: 50vh;">
+                    <span class="spinner"></span> Loading Profile...
+                </div>
+                
+                <div id="profile-container" class="content-block" style="display: none;">
+                </div>
+                </main>
+        </div>
+
+        <footer id="app-footer"></footer>
+
+    </div>
+
+    <div id="preloader" class="preloader"></div>
+    <div id="chatbot-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

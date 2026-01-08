@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <header class="top-bar">
+            <a href="/index.html" class="top-bar-logo">
+                <img src="/assets/logo.png" alt="NexVentory Logo">
+                <span>NexVentory</span>
+            </a>
+            <nav class="top-nav" id="top-nav-links"></nav>
+            <div class="top-bar-user" id="top-bar-user-container"></div>
+        </header>
+
+        <div class="app-container">
+            <nav class="sidebar" id="app-sidebar">
+                <div class="sidebar-content" id="sidebar-content"></div>
+                <div class="sidebar-footer">
+                    <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="link-text">Collapse</span>
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content" id="main-content">
+               
+                <header class="page-header">
+                    <h1>About NexVentory</h1>
+                    <p>The next generation of intelligent inventory management.</p>
+                </header>
+
+                <div class="content-block">
+                    <h2>Our Mission</h2>
+                    <p>NexVentory was built to solve a common problem: managing shared physical assets in a dynamic environment. Whether in an educational institution, a small business, or a research lab, tracking who has what, when it's due back, and what condition it's in is a critical challenge. Our mission is to provide a powerful, intuitive, and scalable platform that makes inventory management seamless and intelligent.</p>
+                </div>
+
+                <div class="content-block">
+                    <h2>Key Features</h2>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-users-cog"></i>
+                            <h4>Role-Based Permissions</h4>
+                            <p>Control exactly who can do what with a powerful, granular permissions system for roles like Master Admin, Admin, and Standard User.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-robot"></i>
+                            <h4>AI-Powered Chatbot</h4>
+                            <p>Perform complex actions like checking items in or out, searching inventory, and reporting issues through a conversational AI assistant.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-file-export"></i>
+                            <h4>Data & Reporting</h4>
+                            <p>View and export your entire inventory, transaction history, or user lists directly to a CSV file for easy analysis and record-keeping.</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-qrcode"></i>
+                            <h4>Barcode & QR Code Scanning</h4>
+                            <p>Utilize your device's camera to instantly scan both QR codes and traditional line barcodes for rapid item identification and transactions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block creator-section">
+                    <div class="creator-info">
+                        <h3>About the Creator</h3>
+                        <p>NexVentory was designed and developed by <strong>Amrinder Singh</strong>, a passionate software developer dedicated to creating practical solutions for complex problems. With a focus on clean architecture, intuitive user interfaces, and scalable backend systems, Amrinder built NexVentory to be a robust tool for any organization.</p>
+                    </div>
+                </div>
+                </main>
+        </div>
+
+        <footer id="app-footer"></footer>
+
+    </div>
+
+    <div id="chatbot-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+</body>
+</html>

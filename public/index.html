@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexVentory Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+    <div id="primary-brand-login" style="display: flex;">
+       <div class="login-container">
+    <img src="/assets/logo.png" alt="NexVentory Logo" class="login-logo hero-illustration" style="max-height: 200px !important; width: auto;">
+    
+    <h1>Welcome to NexVentory</h1>
+    <p>Please sign in to continue</p>
+    <button id="google-signin-btn" class="btn btn-primary">
+        <i class="fab fa-google"></i> Sign In with Google
+    </button>
+</div>
+    </div>
+
+    <div class="app-wrapper" style="display: none;">
+
+        <header class="top-bar">
+            <a href="/index.html" class="top-bar-logo">
+                <img src="/assets/logo.png" alt="NexVentory Logo">
+                <span>NexVentory</span>
+            </a>
+            <nav class="top-nav" id="top-nav-links"></nav>
+            <div class="top-bar-user" id="top-bar-user-container"></div>
+        </header>
+
+        <div class="app-container">
+            <nav class="sidebar" id="app-sidebar">
+                <div class="sidebar-content" id="sidebar-content"></div>
+                <div class="sidebar-footer">
+                    <a href="#" class="nav-link" id="sidebar-toggle-btn" title="Collapse/Expand Sidebar">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="link-text">Collapse</span>
+                    </a>
+                </div>
+            </nav>
+
+            <main class="main-content" id="main-content">
+                <div id="dashboard-content">
+                   </div>
+            </main>
+        </div>
+
+        <footer id="app-footer"></footer>
+    </div>
+    
+    <div id="preloader" class="preloader"></div>
+    <div id="chatbot-container"></div>
+
+    <script src="/__/firebase/8.10.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-functions.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    
+    <script src="dashboard.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

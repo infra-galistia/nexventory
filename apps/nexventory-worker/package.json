@@ -1,0 +1,22 @@
+{
+  "name": "nexventory-worker",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "@nexventory/config": "*",
+    "@nexventory/core": "*",
+    "@nexventory/db": "*",
+    "@nexventory/identity": "*",
+    "@nexventory/policy": "*",
+    "firebase-functions": "latest",
+    "firebase-admin": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "eslint": "latest"
+  }
+}

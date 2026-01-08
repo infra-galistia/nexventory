@@ -1,0 +1,50 @@
+<div id="chatbot-widget">
+    <button id="chat-toggle">
+        <svg viewBox="0 0 24 24">
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,6A2,2 0 0,1 14,8A2,2 0 0,1 12,10A2,2 0 0,1 10,8A2,2 0 0,1 12,6M12,20C10.5,20 9.13,19.5 8,18.7C8.16,17.9 10.33,17.1 12,17.1C13.67,17.1 15.84,17.9 16,18.7C14.87,19.5 13.5,20 12,20Z"/>
+        </svg>
+        <div class="notification-badge" style="display: none;"></div>
+    </button>
+
+    <div id="chat-window">
+        <div class="chat-header">
+            <div class="bot-info">
+                <div class="bot-avatar">🤖</div>
+                <div class="bot-details">
+                    <h3>NexVentory Assistant</h3>
+                    <div class="bot-status">Online</div>
+                </div>
+            </div>
+            <button class="close-btn">&times;</button>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            </div>
+
+        <div class="quick-actions">
+    <div class="quick-actions-header" id="quick-actions-header">
+        <span class="quick-actions-title">Quick Actions</span>
+        <i id="quick-actions-toggle-icon" class="fas fa-chevron-up"></i>
+    </div>
+    <div class="action-buttons" id="chatbot-action-buttons">
+        </div>
+</div>
+
+        <div class="typing-indicator" id="typing-indicator">
+            Assistant is typing...
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Type your message..." maxlength="500">
+            <button class="send-btn" id="send-btn" onclick="chatbotInstance.sendMessage()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="chatbot-footer">
+            Conversations may be reviewed for development purposes.
+        </div>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Organization - NexVentory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div id="preloader" class="preloader"></div>
+
+        <header class="topnav" id="myTopnav">
+            <a href="/" class="topnav-brand">
+                <img id="topnavLogoImage" src="/assets/logo.png" alt="Logo Icon" class="topnav-logo-icon">
+                <span id="topnavAppName">NexVentory</span>
+            </a>
+            <div id="topnavLinksContainer" class="topnav-links-container">
+                </div>
+            <a href="javascript:void(0);" class="topnav-icon" id="navToggleIcon"><i class="fas fa-bars"></i></a>
+        </header>
+
+        <main class="container">
+            <div class="content-block" style="max-width: 600px; margin: 2rem auto;">
+                <header class="page-header">
+                    <h1>Create Your Organization</h1>
+                    <p>The first user becomes the Master Admin for the new organization.</p>
+                </header>
+
+                <div id="signup-form-container">
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="orgName">Organization Name</label>
+                            <input type="text" id="orgName" class="form-control" required>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="fullName">Your Full Name</label>
+                            <input type="text" id="fullName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password (min. 6 characters)</label>
+                            <input type="password" id="password" class="form-control" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Your Starting Department</label>
+                            <input type="text" id="department" class="form-control" placeholder="e.g., IT, Media Services" required>
+                        </div>
+
+                        <div id="signup-message-box" class="message-box" style="display: none;"></div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <button type="submit" id="createOrgBtn" class="btn btn-success btn-block">Create Organization</button>
+                        </div>
+                    </form>
+                    <p style="text-align: center; margin-top: 1.5rem;">
+                        Already have an account? <a href="/">Sign In</a>.
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <div id="chatbot-container"></div>
+        <footer id="app-footer"></footer>
+    </div>
+
+    <script src="/__/firebase/8.10.1/firebase-app.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-auth.js"></script>
+    <script src="/__/firebase/8.10.1/firebase-firestore.js"></script>
+    <script src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="script.js"></script>
+    </body>
+</html>
